@@ -10,9 +10,12 @@ services:
     ports:
       - "5432:5432"
 
-  web:
-    build: .
-    command: bash -c "bundle install && bin/rails db:prepare && bin/rails server -b 0.0.0.0"
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    command: bin/dev
+    tty: true
     volumes:
       - .:/app
     ports:
@@ -20,7 +23,7 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgres://postgres:password@db:5432/myapp_development
+      DATABASE_URL: postgres://postgres:password@db:5432/store_app_development
       RAILS_ENV: development
 
 volumes:

@@ -1,0 +1,35 @@
+FROM ruby:3.2.3
+
+ARG NODE_VERSION=20
+ARG YARN_VERSION=1.22.19
+
+RUN apt-get update -qq && apt-get install -y \
+  build-essential \
+  libpq-dev \
+  curl \
+  git \
+  libvips \
+  && rm -rf /var/lib/apt/lists/*
+
+# Node.js + Yarn
+RUN curl -fsSL https://deb.nodesource.com/setup_$NODE_VERSION.x | bash - \
+  && apt-get install -y nodejs \
+  && npm install -g yarn@$YARN_VERSION
+
+WORKDIR /app
+
+# Gems
+COPY Gemfile Gemfile.lock ./
+RUN bundle install
+
+# JS deps
+COPY package.json yarn.lock ./
+RUN yarn install
+
+# App
+COPY . .
+
+EXPOSE 3000
+
+ENTRYPOINT ["/app/bin/docker-dev-entrypoint.sh"]
+

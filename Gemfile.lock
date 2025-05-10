@@ -111,6 +111,7 @@ GEM
     erubi (1.13.1)
     et-orbi (1.2.11)
       tzinfo
+    foreman (0.87.2)
     fugit (1.11.1)
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
@@ -204,7 +205,6 @@ GEM
       railties (>= 7.0.0)
     psych (5.2.4)
       date
-      stringio
     public_suffix (6.0.2)
     puma (6.6.0)
       nio4r (~> 2.0)
@@ -367,6 +367,7 @@ DEPENDENCIES
   capybara
   cssbundling-rails
   debug
+  foreman (~> 0.87.2)
   jbuilder
   jsbundling-rails
   kamal
