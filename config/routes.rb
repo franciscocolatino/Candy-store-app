@@ -16,5 +16,5 @@ Rails.application.routes.draw do
 
   get '/login', to: 'sessions#index'
   post '/login', to: 'sessions#login'
-  get 'logout', to: 'sessions#logout'
+  get '/logout', to: 'sessions#logout'
 end

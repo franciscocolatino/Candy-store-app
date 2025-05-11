@@ -1,29 +1,31 @@
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <h1 class="text-center">Login</h1>
-      
-      <%= form_with url: login_path, method: :post, authenticity_token: false, class: "mt-4" do |form| %>
-        <div class="form-group">
-          <%= form.label :username, "Usuário", class: "form-label" %>
-          <%= form.text_field :username, required: true, autofocus: true, class: "form-control" %>
-        </div>
+<div class="max-w-2xl mx-auto px-4 py-8">
+  <div class="max-w-md mx-auto">
+    <h1 class="text-3xl font-bold text-center mb-8">Login</h1>
 
-        <div class="form-group mt-3">
-          <%= form.label :password_digest, "Senha", class: "form-label" %>
-          <%= form.password_field :password_digest, required: true, class: "form-control" %>
-        </div>
-
-        <div class="d-grid gap-2 mt-4">
-          <%= form.submit "Login", class: "btn btn-primary btn-block" %>
-        </div>
-      <% end %>
-
-      <div id="error-message"></div>
-
-      <div class="text-center mt-3">
-        <%= link_to "Cadastrar", new_user_path, class: "btn btn-link" %>
+    <% if flash[:alert] %>
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-3">
+        <%= flash[:alert] %>
       </div>
+    <% end %>
+    
+    <%= form_with url: login_path, method: :post, data: { turbo: true },class: "space-y-6" do |form| %>
+      <div>
+        <%= form.label :cpf, "CPF", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.text_field :cpf, required: true, autofocus: true, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+      </div>
+
+      <div>
+        <%= form.label :password_digest, "Senha", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.password_field :password_digest, required: true, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+      </div>
+
+      <div class="flex justify-center">
+        <%= form.submit "Login", class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+      </div>
+    <% end %>
+
+    <div class="text-center mt-6">
+      <%= link_to "Cadastrar", new_user_path, class: "text-indigo-600 hover:text-indigo-900" %>
     </div>
   </div>
 </div>
