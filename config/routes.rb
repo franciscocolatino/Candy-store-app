@@ -11,5 +11,11 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   #get "/teste", to: "static#index"
+  resources :users, only: [:index]
   root "static#index"
+  resources :users
+
+  get '/login', to: 'sessions#index'
+  post '/login', to: 'sessions#login'
+  get 'logout', to: 'sessions#logout'
 end
