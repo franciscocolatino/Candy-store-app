@@ -9,9 +9,11 @@ class SessionsController < ApplicationController
 
     if service.success?
       cookies.encrypted[:auth_token] = { value: service.result[:token], expires: 7.days }
+
       redirect_to root_path
     else
-      render turbo_stream: turbo_stream.replace("error-message", partial: "error", locals: { message: "Usuário ou senha inválidos" })
+      flash.now[:alert] = "Usuário ou senha inválidos"
+      render :index, status: :unauthorized
     end
   end
 
@@ -23,6 +25,6 @@ class SessionsController < ApplicationController
   private
 
   def login_params
-    params.permit(:username, :password_digest, :commit)
+    params.permit(:cpf, :password_digest, :commit)
   end
 end

@@ -2,7 +2,7 @@ class Users::Authenticate
   prepend SimpleCommand
 
   def initialize(attributes)
-    @username = attributes[:username]
+    @cpf = attributes[:cpf]
     @password = attributes[:password_digest]
   end
 
@@ -10,7 +10,7 @@ class Users::Authenticate
     user = authenticate_user
     return unless user
 
-    token = JsonWebToken.encode(user_id: user.id)
+    token = JsonWebToken.encode(cpf: user.cpf)
 
     { token:, user: }
   end
@@ -18,7 +18,7 @@ class Users::Authenticate
   private
 
   def authenticate_user
-    user = ::User.find_by_username(@username)
+    user = ::User.find_by_cpf(@cpf)
     return errors.add :user_authentication, 'invalid credentials' unless user&.authenticate(@password)
 
     user

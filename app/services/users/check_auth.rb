@@ -14,7 +14,7 @@ class Users::CheckAuth
   attr_reader :cookies
 
   def user
-    @user ||= ::User.where(id: decoded_auth_token[:user_id]).try(:first) if decoded_auth_token
+    @user ||= ::User.where(cpf: decoded_auth_token[:cpf]).try(:first) if decoded_auth_token
     return unless @user
 
     @user

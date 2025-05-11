@@ -5,5 +5,6 @@ class User < ApplicationRecord
   
   validates :name, presence: true
   validates :password, presence: true
-  validates :cpf, presence: true, uniqueness: true
+  validates :cpf, presence: true
+  validates :cpf, uniqueness: { message: "já cadastrado" }
 end

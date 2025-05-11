@@ -1,18 +1,20 @@
-<div id="<%= dom_id user %>" class="card mb-3">
-  <div class="card-body">
-    <p class="card-text">
-      <strong>Nome:</strong>
-      <%= user.name %>
-    </p>
+<div id="<%= dom_id user %>" class="bg-white rounded-lg shadow mb-4">
+  <div class="p-6">
+    <div class="space-y-4">
+      <div class="flex items-center">
+        <span class="text-gray-600 mr-2">Nome:</span>
+        <span class="font-medium text-gray-900"><%= user.name %></span>
+      </div>
 
-    <p class="card-text">
-      <strong>Usuário:</strong>
-      <%= user.username %>
-    </p>
+      <div class="flex items-center">
+        <span class="text-gray-600 mr-2">CPF:</span>
+        <span class="font-medium text-gray-900"><%= user.cpf %></span>
+      </div>
 
-    <p class="card-text">
-      <strong>Senha (hash):</strong>
-      <%= user.password_digest %>
-    </p>
+      <div class="flex items-center">
+        <span class="text-gray-600 mr-2">Senha (hash):</span>
+        <span class="font-medium text-gray-900"><%= user.password_digest %></span>
+      </div>
+    </div>
   </div>
 </div>
