@@ -24,6 +24,7 @@ RUN bundle install
 
 # JS deps
 COPY package.json yarn.lock ./
+ENV NODE_ENV=development
 RUN yarn install
 
 # App
