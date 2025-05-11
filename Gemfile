@@ -53,6 +53,12 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
   gem "foreman", "~> 0.87.2"
 
+  gem 'rspec-rails', github: 'rspec/rspec-rails'       # Rails 8 ainda não tem versão final compatível
+  gem 'factory_bot_rails'                              # Factories para testes
+  gem 'faker'                                           # Geração de dados fake
+  gem 'database_cleaner-active_record'                 # Limpa o BD entre os testes
+  gem 'shoulda-matchers', '~> 6.0'   
+  gem 'byebug'
 end
 
 group :development do
