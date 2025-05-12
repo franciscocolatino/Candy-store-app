@@ -35,7 +35,7 @@ class UsersController < ApplicationController
       if @user.save
         token = ::JsonWebToken.encode(cpf: @user.cpf)
         cookies.encrypted[:auth_token] = { value: token, expires: 7.days }
-        format.html { redirect_to user_url(@user), notice: "Usuário criado com sucesso." }
+        format.html { redirect_to root_path, notice: "Usuário criado com sucesso." }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new, status: :unprocessable_entity }
