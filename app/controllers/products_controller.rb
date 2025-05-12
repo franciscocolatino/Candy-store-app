@@ -3,6 +3,11 @@ class ProductsController < ApplicationController
 
   def index
     @products = Product.all
+    if @products.any?
+      render json: @products
+    else
+      head :no_content
+    end
   end
 
   def show
@@ -14,30 +19,46 @@ class ProductsController < ApplicationController
 
   def create
     @product = Product.new(product_params)
-
+  
     if @product.save
-      redirect_to @product, notice: 'Produto criado com sucesso.'
+      respond_to do |format|
+        format.json { render json: @product, status: :created }
+        format.html { redirect_to @product, notice: 'Produto criado com sucesso.' }
+      end
     else
-      render :new, status: :unprocessable_entity
+      respond_to do |format|
+        format.json { render json: @product.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_entity }
+      end
     end
   end
+  
 
   def edit
   end
 
   def update
     if @product.update(product_params)
-      redirect_to @product, notice: 'Produto atualizado com sucesso.'
+      respond_to do |format|
+        format.json { render json: @product, status: :ok }
+        format.html { redirect_to @product, notice: 'Produto atualizado com sucesso.' }
+      end
     else
-      render :edit, status: :unprocessable_entity
+      respond_to do |format|
+        format.json { render json: @product.errors, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_entity }
+      end
     end
-  end
+  end  
 
   def destroy
     @product.destroy
-    redirect_to products_url, notice: 'Produto removido com sucesso.'
+    respond_to do |format|
+      format.json { render json: { message: "#{@product.name} deleted" }, status: :ok }
+      format.html { redirect_to products_url, notice: 'Produto removido com sucesso.' }
+    end
   end
-  
+    
   def inventory
     @product = Product.find(params[:id])
     @lots = @product.lots.order(created_at: :desc)
