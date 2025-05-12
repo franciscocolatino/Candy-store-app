@@ -3,14 +3,29 @@ class ProductsController < ApplicationController
 
   def index
     @products = Product.all
-    if @products.any?
-      render json: @products
-    else
-      head :no_content
+    respond_to do |format|
+      format.html
+      format.json do
+        if @products.any?
+          render json: @products
+        else
+          head :no_content
+        end
+      end
     end
   end
 
   def show
+    respond_to do |format|
+      format.html 
+      format.json do
+        if @product
+          render json: @product
+        else
+          head :not_found
+        end
+      end
+    end
   end
 
   def new

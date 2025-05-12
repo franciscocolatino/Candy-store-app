@@ -1,0 +1,13 @@
+<h1>Lista de Produtos</h1>
+
+<% if @products.any? %>
+  <ul>
+    <% @products.each do |product| %>
+      <li>
+        <%= link_to product.name, product_path(product) %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>Nenhum produto cadastrado.</p>
+<% end %>
