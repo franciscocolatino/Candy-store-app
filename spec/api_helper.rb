@@ -1,12 +1,7 @@
 module ApiHelper
-  def generate_tokens_admin(admin)
-    service = Users::Authenticate.call(admin.cpf, admin.password_digest)
-    service.result[:token]
-  end
-
-  def generate_tokens(user)
+  def generate_tokens(user, password)
     service = Users::Authenticate.call(
-      cpf: user.cpf, password_digest: user.password_digest
+      cpf: user.cpf, password_digest: password
     )
     service.result[:token]
   end
