@@ -1,0 +1,33 @@
+<%= form_with(model: [@product, lot], local: true) do |form| %>
+  <% if lot.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(lot.errors.count, "erro") %> impediu que este lote fosse salvo:</h2>
+      <ul>
+        <% lot.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+  <div class="field">
+    <%= form.label :quantity, 'Quantidade' %>
+    <%= form.number_field :quantity, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :manufacturing_date, 'Data de Fabricação' %>
+    <%= form.date_field :manufacturing_date, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :expiration_date, 'Data de Validade' %>
+    <%= form.date_field :expiration_date, class: 'form-control' %>
+  </div>
+
+  <div class="actions mt-3">
+    <%= form.submit 'Salvar', class: 'btn btn-primary' %>
+    <%= link_to 'Cancelar', product_lots_path(@product), class: 'btn btn-secondary' %>
+  </div>
+<% end %>
