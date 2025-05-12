@@ -13,7 +13,12 @@ Rails.application.routes.draw do
   #get "/teste", to: "static#index"
   resources :users, only: [:index]
   root "static#index"
+  
   resources :users
+  resources :products do
+    resources :lots, except: [:index, :show]
+    get 'inventory', on: :member, to: 'products#inventory', as: :inventory
+  end
 
   get '/login', to: 'sessions#index'
   post '/login', to: 'sessions#login'

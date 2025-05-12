@@ -1,0 +1,62 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h2>Estoque - <%= @product.name %></h2>
+          <div>
+            <%= link_to 'Novo Lote', new_product_lot_path(@product), class: 'btn btn-primary' %>
+            <%= link_to 'Voltar', products_path, class: 'btn btn-secondary' %>
+          </div>
+        </div>
+        <div class="card-body">
+          <% if @lots.any? %>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Quantidade</th>
+                    <th>Data de Fabricação</th>
+                    <th>Data de Validade</th>
+                    <th>Criado em</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @lots.each do |lot| %>
+                    <tr>
+                      <td><%= lot.quantity %></td>
+                      <td><%= l(lot.manufacturing_date) if lot.manufacturing_date %></td>
+                      <td><%= l(lot.expiration_date) if lot.expiration_date %></td>
+                      <td><%= l(lot.created_at, format: :short) if lot.created_at %></td>
+                      <td>
+                        <%= link_to 'Editar', edit_product_lot_path(@product, lot), class: 'btn btn-sm btn-warning' %>
+                        <%= link_to 'Excluir', product_lot_path(@product, lot), 
+                                    method: :delete, 
+                                    data: { confirm: 'Tem certeza que deseja remover este lote?' },
+                                    class: 'btn btn-sm btn-danger' %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="4">Total em Estoque:</th>
+                    <th><%= @lots.sum(:quantity) %></th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          <% else %>
+            <div class="alert alert-info">
+              Nenhum lote cadastrado para este produto.
+            </div>
+            <div class="mt-3">
+              <%= link_to 'Adicionar Primeiro Lote', new_product_lot_path(@product), class: 'btn btn-primary' %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
