@@ -1,0 +1,10 @@
+<h1 class="text-2xl font-bold mb-4 text-gray-800">Detalhes do Lote</h1>
+
+<ul class="space-y-2">
+  <li><strong>Quantidade:</strong> <%= @lot.quantity %></li>
+  <li><strong>Fabricação:</strong> <%= l(@lot.manufacturing_date, format: :short) if @lot.manufacturing_date %></li>
+  <li><strong>Validade:</strong> <%= l(@lot.expiration_date, format: :short) if @lot.expiration_date %></li>
+  <li><strong>Criado em:</strong> <%= l(@lot.created_at, format: :long) %></li>
+</ul>
+
+<%= link_to 'Voltar aos Lotes', product_lots_path(@product), class: 'btn btn-secondary mt-4' %>

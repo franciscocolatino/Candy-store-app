@@ -31,10 +31,10 @@
                       <td><%= l(lot.created_at, format: :short) if lot.created_at %></td>
                       <td>
                         <%= link_to 'Editar', edit_product_lot_path(@product, lot), class: 'btn btn-sm btn-warning' %>
-                        <%= link_to 'Excluir', product_lot_path(@product, lot), 
-                                    method: :delete, 
-                                    data: { confirm: 'Tem certeza que deseja remover este lote?' },
-                                    class: 'btn btn-sm btn-danger' %>
+                        <%= button_to 'Excluir', product_lot_path(@product, lot), 
+                          method: :delete, 
+                          data: { confirm: 'Tem certeza que deseja remover este lote?' },
+                          class: 'btn btn-sm btn-danger' %>
                       </td>
                     </tr>
                   <% end %>

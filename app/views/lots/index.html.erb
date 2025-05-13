@@ -1,0 +1,26 @@
+<div class="mb-4">
+  <%= link_to products_path, class: "inline-flex items-center px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition" do %>
+    <i class="fas fa-arrow-left mr-2"></i>
+    Voltar
+  <% end %>
+</div>
+
+<h1 class="text-2xl font-bold mb-4 text-gray-800">Lotes do Produto</h1>
+
+<% if @lots.any? %>
+  <ul class="space-y-3">
+    <% @lots.each do |lot| %>
+      <li>
+        <%= link_to edit_product_lot_path(@product, lot), class: "block bg-white shadow-md rounded-lg p-4 hover:bg-gray-50 transition duration-200" do %>
+          <p><strong>Quantidade:</strong> <%= lot.quantity %></p>
+          <p><strong>Fabricação:</strong> <%= l(lot.manufacturing_date, format: :short) if lot.manufacturing_date %></p>
+          <p><strong>Validade:</strong> <%= l(lot.expiration_date, format: :short) if lot.expiration_date %></p>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <div class="p-4 bg-yellow-100 text-yellow-800 rounded-md">
+    <p>Nenhum lote cadastrado para este produto.</p>
+  </div>
+<% end %>
