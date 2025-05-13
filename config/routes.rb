@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   
   resources :users
   resources :products do
-    resources :lots, except: [:index, :show]
+    resources :lots
     get 'inventory', on: :member, to: 'products#inventory', as: :inventory
   end
 
