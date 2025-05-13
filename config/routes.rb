@@ -12,7 +12,12 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   #get "/teste", to: "static#index"
   root "static#index"
+  
   resources :users
+  resources :products do
+    resources :lots
+    get 'inventory', on: :member, to: 'products#inventory', as: :inventory
+  end
 
   get '/login', to: 'sessions#index'
   post '/login', to: 'sessions#login'

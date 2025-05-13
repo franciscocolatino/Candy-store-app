@@ -1,0 +1,55 @@
+<div class="max-w-6xl mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold text-gray-800">📦 Estoque — <%= @product.name %></h2>
+    <div class="space-x-2">
+      <%= link_to 'Novo Lote', new_product_lot_path(@product), class: 'inline-flex items-center px-4 py-2 bg-green-600 text-white text-sm font-medium rounded hover:bg-green-700 transition' %>
+      <%= link_to 'Voltar', products_path, class: 'inline-flex items-center px-4 py-2 bg-gray-300 text-gray-800 text-sm font-medium rounded hover:bg-gray-400 transition' %>
+    </div>
+  </div>
+
+  <div class="bg-white shadow-md rounded-lg overflow-hidden">
+    <% if @lots.any? %>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm text-left text-gray-700">
+          <thead class="bg-gray-100 text-xs uppercase text-gray-600 border-b">
+            <tr>
+              <th class="px-6 py-4">Quantidade</th>
+              <th class="px-6 py-4">Fabricação</th>
+              <th class="px-6 py-4">Validade</th>
+              <th class="px-6 py-4">Criado em</th>
+              <th class="px-6 py-4">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @lots.each do |lot| %>
+              <tr class="border-b hover:bg-gray-50">
+                <td class="px-6 py-4"><%= lot.quantity %></td>
+                <td class="px-6 py-4"><%= l(lot.manufacturing_date) if lot.manufacturing_date %></td>
+                <td class="px-6 py-4"><%= l(lot.expiration_date) if lot.expiration_date %></td>
+                <td class="px-6 py-4"><%= l(lot.created_at, format: :short) if lot.created_at %></td>
+                <td class="px-6 py-4 space-x-2">
+                  <%= link_to 'Editar', edit_product_lot_path(@product, lot), class: 'inline-flex items-center px-3 py-1 text-xs font-medium text-yellow-800 bg-yellow-100 rounded hover:bg-yellow-200' %>
+                  <%= button_to 'Excluir', product_lot_path(@product, lot),
+                        method: :delete,
+                        data: { confirm: 'Tem certeza que deseja remover este lote?' },
+                        class: 'inline-flex items-center px-3 py-1 text-xs font-medium text-red-800 bg-red-100 rounded hover:bg-red-200' %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+          <tfoot class="bg-gray-100">
+            <tr>
+              <th colspan="4" class="px-6 py-3 text-right font-semibold text-gray-700">Total em Estoque:</th>
+              <th class="px-6 py-3 text-green-700 font-bold"><%= @lots.sum(:quantity) %> unidades</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    <% else %>
+      <div class="p-6 text-gray-700 bg-yellow-50 border-l-4 border-yellow-400 rounded-lg">
+        <p class="mb-2 font-medium">Nenhum lote cadastrado para este produto.</p>
+        <%= link_to 'Adicionar Primeiro Lote', new_product_lot_path(@product), class: 'inline-block mt-3 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 transition' %>
+      </div>
+    <% end %>
+  </div>
+</div>
