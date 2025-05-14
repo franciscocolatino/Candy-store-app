@@ -7,4 +7,5 @@ class User < ApplicationRecord
   validates :password, presence: true
   validates :cpf, presence: true
   validates :cpf, uniqueness: { message: "já cadastrado" }
+  validates :cpf, length: { is: 11, message: "inválido" }
 end
