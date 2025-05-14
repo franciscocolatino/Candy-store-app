@@ -30,4 +30,10 @@ RSpec.describe Lot, type: :model do
     lot = FactoryBot.build(:lot, :expired)
     expect(lot.expiration_date).to be < Date.today
   end
+
+  it "should not expire if expiration_date is after today" do
+    lot = FactoryBot.build(:lot, manufacturing_date: Date.today, expiration_date: Date.yesterday)
+    expect(lot).not_to be_valid
+    expect(lot.errors[:expiration_date]).to eq(["não pode ser menor do que a data de fabricação"])
+  end
 end
