@@ -4,8 +4,11 @@
 
 import { application } from "./application"
 
+import Users__CpfValidatorController from "./users/cpf_validator_controller"
+application.register("users-cpf-validator", Users__CpfValidatorController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
-import UpdatePasswordModalController from "./update_password_modal_controller"
-application.register("update-password-modal", UpdatePasswordModalController)
 
+import Users__UpdatePasswordModalController from "./users/update_password_modal_controller"
+application.register("users-update-password-modal", Users__UpdatePasswordModalController)
