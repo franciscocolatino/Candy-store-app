@@ -94,13 +94,13 @@ RSpec.describe "Users", type: :request do
       expect(response.body).to include("Senha atualizada com sucesso")
     end
 
-    it "returns error if passwords do not match" do
+    it "error when the password and confirmation do not match" do
       patch password_update_path(user), params: {
-        password: "abc123", password_confirmation: "wrong"
+        password: "newpassword", password_confirmation: "wrongpassword"
       }
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.body).to include("As senhas não coincidem")
+      expect(response.body).to include("As senhas não coincidem.")
     end
   end
 end
