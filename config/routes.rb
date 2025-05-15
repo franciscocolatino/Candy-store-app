@@ -19,6 +19,8 @@ Rails.application.routes.draw do
     get 'inventory', on: :member, to: 'products#inventory', as: :inventory
   end
 
+  resources :tables
+
   get '/login', to: 'sessions#index'
   post '/login', to: 'sessions#login'
   get '/logout', to: 'sessions#logout'
