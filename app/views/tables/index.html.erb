@@ -9,12 +9,12 @@
   </div>
 
   <% if @tables.any? %>
-    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <% @tables.each do |table| %>
+    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
+      <% @tables.sort_by(&:number).each do |table| %>
         <li class="bg-white rounded-xl shadow hover:shadow-lg transition duration-200 p-5 flex flex-col justify-between h-full">
           <div class="mb-3">
             <h2 class="text-lg font-semibold text-gray-700 mb-1">
-              <%= link_to table.number, product_path(table), class: "hover:text-indigo-600 transition" %>
+              <%= link_to table.number, table_path(table), class: "hover:text-indigo-600 transition" %>
             </h2>
           </div>
         </li>
