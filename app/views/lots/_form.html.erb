@@ -1,15 +1,11 @@
 <%= form_with(model: [@product, lot], local: true) do |form| %>
   <% if lot.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(lot.errors.count, "erro") %> impediu que este lote fosse salvo:</h2>
-      <ul>
-        <% lot.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
+    <% if lot.errors.any? %>
+    <%= javascript_tag do %>
+      alert("<%= pluralize(lot.errors.count, "erro") %> impediu que este lote fosse salvo:\n\n<%= lot.errors.full_messages.join("\n") %>");
+    <% end %>
   <% end %>
-
+  <% end %>
 
   <div class="field">
     <%= form.label :quantity, 'Quantidade' %>
