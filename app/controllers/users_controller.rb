@@ -35,7 +35,7 @@ class UsersController < ApplicationController
       if @user.save
         token = ::JsonWebToken.encode(cpf: @user.cpf)
         cookies.encrypted[:auth_token] = { value: token, expires: 7.days }
-        format.html { redirect_to root_path, notice: "Usuário criado com sucesso." }
+        format.html { redirect_to root_path }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -64,6 +64,23 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to users_url, notice: "Usuário foi destruído com sucesso." }
       format.json { head :no_content }
+    end
+  end
+
+  def update_password
+    @user = User.find(params[:id])
+
+    if params[:password] != params[:password_confirmation]
+      flash.now[:alert] = 'As senhas não coincidem.'
+      render :edit, status: :unprocessable_entity
+      return
+    end
+    
+    if @user.update(password: params[:password])
+      redirect_to edit_user_path(@user), notice: 'Senha atualizada com sucesso.'
+    else
+      flash.now[:alert] = 'Erro ao atualizar a senha.'
+      render :edit, status: :unprocessable_entity
     end
   end
 
