@@ -32,10 +32,10 @@ docker-compose exec app rails c
 
 ## Criando e migrando o banco de dados
 
-Para criar o banco de dados:
+Para criar, migrar e popular o banco de dados com dados iniciais:
 
 ```sh
-docker-compose exec app rails db:create
+docker-compose exec app rails db:prepare
 ```
 
 Para rodar as migrações:
