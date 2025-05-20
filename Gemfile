@@ -52,7 +52,7 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
-  gem "foreman", "~> 0.87.2"
+  gem "foreman", "~> 0.88.1"
 
   gem "rspec-rails", github: "rspec/rspec-rails"       # Rails 8 ainda não tem versão final compatível
   gem "factory_bot_rails"                              # Factories para testes
