@@ -1,4 +1,4 @@
-require_relative 'simple_command/errors'
+require_relative "simple_command/errors"
 
 module SimpleCommand
   attr_reader :result

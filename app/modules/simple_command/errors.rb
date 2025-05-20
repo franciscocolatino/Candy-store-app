@@ -30,8 +30,8 @@ module SimpleCommand
 
     def full_message(attribute, message)
       return message if attribute == :base
-      attr_name = attribute.to_s.tr('.', '_').capitalize
-      "%s %s" % [attr_name, message]
+      attr_name = attribute.to_s.tr(".", "_").capitalize
+      "%s %s" % [ attr_name, message ]
     end
 
     def create_error(key, value, opts = {})

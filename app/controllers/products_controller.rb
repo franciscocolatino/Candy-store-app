@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_product, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @products = Product.all
@@ -17,7 +17,7 @@ class ProductsController < ApplicationController
 
   def show
     respond_to do |format|
-      format.html 
+      format.html
       format.json do
         if @product
           render json: @product
@@ -34,11 +34,11 @@ class ProductsController < ApplicationController
 
   def create
     @product = Product.new(product_params)
-  
+
     if @product.save
       respond_to do |format|
         format.json { render json: @product, status: :created }
-        format.html { redirect_to @product, notice: 'Produto criado com sucesso.' }
+        format.html { redirect_to @product, notice: "Produto criado com sucesso." }
       end
     else
       respond_to do |format|
@@ -47,7 +47,7 @@ class ProductsController < ApplicationController
       end
     end
   end
-  
+
 
   def edit
   end
@@ -56,7 +56,7 @@ class ProductsController < ApplicationController
     if @product.update(product_params)
       respond_to do |format|
         format.json { render json: @product, status: :ok }
-        format.html { redirect_to @product, notice: 'Produto atualizado com sucesso.' }
+        format.html { redirect_to @product, notice: "Produto atualizado com sucesso." }
       end
     else
       respond_to do |format|
@@ -64,16 +64,16 @@ class ProductsController < ApplicationController
         format.html { render :edit, status: :unprocessable_entity }
       end
     end
-  end  
+  end
 
   def destroy
     @product.destroy
     respond_to do |format|
       format.json { render json: { message: "#{@product.name} deleted" }, status: :ok }
-      format.html { redirect_to products_url, notice: 'Produto removido com sucesso.' }
+      format.html { redirect_to products_url, notice: "Produto removido com sucesso." }
     end
   end
-    
+
   def inventory
     @product = Product.find(params[:id])
     @lots = @product.lots.order(created_at: :desc)

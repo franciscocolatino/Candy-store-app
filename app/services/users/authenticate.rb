@@ -19,7 +19,7 @@ class Users::Authenticate
 
   def authenticate_user
     user = ::User.find_by_cpf(@cpf)
-    return errors.add :user_authentication, 'invalid credentials' unless user&.authenticate(@password)
+    return errors.add :user_authentication, "invalid credentials" unless user&.authenticate(@password)
 
     user
   end

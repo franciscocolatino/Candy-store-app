@@ -1,8 +1,8 @@
 class User < ApplicationRecord
-  self.primary_key = 'cpf'
+  self.primary_key = "cpf"
   has_secure_password
 
-  
+
   validates :name, presence: true
   validates :password, presence: true, if: :password_required?
   validates :cpf, presence: true
