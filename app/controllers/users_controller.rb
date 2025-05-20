@@ -47,8 +47,13 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1 or /users/1.json
   def update
     respond_to do |format|
+      notice = if @user == @current_user && @user.cpf != user_update_params[:cpf]
+                "Seu usuário foi atualizado com sucesso. Faça login novamente com o novo cpf."
+               else
+                "Usuário atualizado com sucesso."
+               end
       if @user.update(user_update_params)
-        format.html { redirect_to user_url(@user), notice: "Usuário atualizado com sucesso." }
+        format.html { redirect_to edit_user_path(@user), notice: notice }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit, status: :unprocessable_entity }
