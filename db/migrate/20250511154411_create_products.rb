@@ -6,9 +6,8 @@ class CreateProducts < ActiveRecord::Migration[8.0]
         t.string :category
         t.decimal :price, precision: 10, scale: 2
         t.date :deleted_at
-        
+
         t.timestamps
       end
     end
-  end
-  
+end

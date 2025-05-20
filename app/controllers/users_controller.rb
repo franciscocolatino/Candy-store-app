@@ -5,14 +5,14 @@ class UsersController < ApplicationController
   # GET /users or /users.json
   def index
     @users = User.all
-  
+
     respond_to do |format|
       format.html # renderiza views/users/index.html.erb
       format.json { render json: @users }
     end
   end
-  
-  
+
+
 
   # GET /users/1 or /users/1.json
   def show
@@ -71,15 +71,15 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     if params[:password] != params[:password_confirmation]
-      flash.now[:alert] = 'As senhas não coincidem.'
+      flash.now[:alert] = "As senhas não coincidem."
       render :edit, status: :unprocessable_entity
       return
     end
-    
+
     if @user.update(password: params[:password])
-      redirect_to edit_user_path(@user), notice: 'Senha atualizada com sucesso.'
+      redirect_to edit_user_path(@user), notice: "Senha atualizada com sucesso."
     else
-      flash.now[:alert] = 'Erro ao atualizar a senha.'
+      flash.now[:alert] = "Erro ao atualizar a senha."
       render :edit, status: :unprocessable_entity
     end
   end

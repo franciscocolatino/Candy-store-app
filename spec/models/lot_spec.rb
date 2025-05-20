@@ -4,7 +4,7 @@ RSpec.describe Lot, type: :model do
   it "should be valid with valid attributes" do
     lot = FactoryBot.build(:lot)
     expect(lot).to be_valid
-  end 
+  end
 
   it "should not be valid without a product" do
     lot = FactoryBot.build(:lot, product: nil)
