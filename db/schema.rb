@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_14_191417) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_20_142221) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -23,6 +23,26 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_14_191417) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["product_id"], name: "index_lots_on_product_id"
+  end
+
+  create_table "order_lots", force: :cascade do |t|
+    t.integer "quantity"
+    t.boolean "is_delivered"
+    t.float "subtotal"
+    t.bigint "order_id", null: false
+    t.bigint "lot_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lot_id"], name: "index_order_lots_on_lot_id"
+    t.index ["order_id"], name: "index_order_lots_on_order_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.float "total_price"
+    t.boolean "is_finished"
+    t.datetime "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "products", force: :cascade do |t|
@@ -50,4 +70,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_14_191417) do
   end
 
   add_foreign_key "lots", "products"
+  add_foreign_key "order_lots", "lots"
+  add_foreign_key "order_lots", "orders"
 end
