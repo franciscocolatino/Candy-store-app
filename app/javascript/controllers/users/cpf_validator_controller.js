@@ -5,12 +5,21 @@ export default class extends Controller {
   static targets = ["input", "error"]
 
   connect() {
+    this.validateHandler = this.validate.bind(this)
+    this.revalidateHandler = this.revalidate.bind(this)
+
     this.form = this.element.closest("form")
-    this.form.addEventListener("submit", this.validate.bind(this))
+    this.form.addEventListener("submit", this.validateHandler)
+    this.inputTarget.addEventListener("blur", this.revalidateHandler)
+  }
+
+  disconnect() {
+    this.form.removeEventListener("submit", this.validateHandler)
+    this.inputTarget.removeEventListener("blur", this.revalidateHandler)
   }
 
   validate(event) {
-    const cpf = this.inputTarget.value.replace(/[^\d]+/g, "")
+    const cpf = this.cleanedCPF()
     this.hideError()
 
     if (!this.isValidCPF(cpf)) {
@@ -19,21 +28,21 @@ export default class extends Controller {
     }
   }
 
+  revalidate() {
+    const cpf = this.cleanedCPF()
+    if (this.isValidCPF(cpf)) {
+      this.hideError()
+    } else {
+      this.showError()
+    }
+  }
+
+  cleanedCPF() {
+    return this.inputTarget.value.replace(/[^\d]+/g, "")
+  }
+
   isValidCPF(cpf) {
-    if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false
-
-    let soma = 0, resto
-
-    for (let i = 1; i <= 9; i++) soma += parseInt(cpf[i - 1]) * (11 - i)
-    resto = (soma * 10) % 11
-    if (resto === 10 || resto === 11) resto = 0
-    if (resto !== parseInt(cpf[9])) return false
-
-    soma = 0
-    for (let i = 1; i <= 10; i++) soma += parseInt(cpf[i - 1]) * (12 - i)
-    resto = (soma * 10) % 11
-    if (resto === 10 || resto === 11) resto = 0
-    return resto === parseInt(cpf[10])
+    return /^\d{11}$/.test(cpf)
   }
 
   showError() {
