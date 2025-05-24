@@ -1,4 +1,18 @@
 class OrdersController < ApplicationController
+  before_action :set_order, only: [:show, :close_order]
+
+  def index
+    @orders = Order.includes(:table, :order_lots => {:lot => :product})
+                  .order(created_at: :desc)
+    
+    @orders = @orders.where(is_finished: params[:status] == 'finished') if params[:status] == 'finished'  
+    @orders = @orders.where(is_finished: params[:status] == 'pending') if params[:status] == 'pending'  
+
+    @orders = @orders.where(table_id: params[:table_id]) if params[:table_id].present?
+    @orders = @orders.where(created_at: params[:start_date]..params[:end_date]) if params[:start_date].present? && params[:end_date].present?
+    
+    @tables = Table.all.order(:number)
+  end
 
     def create
        @order = Order.create(table_id: params[:table_id], user_cpf: @current_user.cpf)
@@ -10,16 +24,27 @@ class OrdersController < ApplicationController
       end
   end
 
+    def show
+      @order_lots = @order.order_lots.includes(:lot => :product)
+      @total = @order_lots.sum { |ol| ol.quantity * ol.lot.product.price }
+    end
+
     def close_order
       @order = Order.find(params[:id])
       if @order.order_lots.all? { |lot| lot.is_delivered == true }
         @order.update(is_finished: true)
-        redirect_to tables_path, notice: 'Pedido fechado com sucesso!'
+        redirect_to order_path(@order), notice: 'Pedido fechado com sucesso!'
       else
-        redirect_to table_path(@order.table), notice: 'Ainda existem pedidos que nao foram entregues!'
+        redirect_to table_path(@order.table), alert: 'Ainda existem itens que não foram entregues!'
       end
     end
 
     def destroy
+    end
+
+    private
+
+    def set_order
+      @order = Order.find(params[:id])
     end
 end
