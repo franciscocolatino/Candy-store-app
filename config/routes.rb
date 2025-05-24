@@ -19,6 +19,11 @@ Rails.application.routes.draw do
     get 'inventory', on: :member, to: 'products#inventory', as: :inventory
   end
 
+  resources :orders do
+    resources :orders_lots, only: [:new, :create]
+  end
+  resources :avaliable_lots, only: [:index]
+
   resources :tables
 
   get '/login', to: 'sessions#index'

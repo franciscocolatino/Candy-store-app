@@ -25,10 +25,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_20_142221) do
     t.index ["product_id"], name: "index_lots_on_product_id"
   end
 
-  create_table "order_lots", force: :cascade do |t|
-    t.integer "quantity"
-    t.boolean "is_delivered"
-    t.float "subtotal"
+  create_table "order_lots", primary_key: ["order_id", "lot_id"], force: :cascade do |t|
+    t.integer "quantity", default: 1, null: false
+    t.boolean "is_delivered", default: false
+    t.float "subtotal", default: 0.0, null: false
     t.bigint "order_id", null: false
     t.bigint "lot_id", null: false
     t.datetime "created_at", null: false
@@ -38,11 +38,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_20_142221) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.float "total_price"
-    t.boolean "is_finished"
-    t.datetime "date"
+    t.float "total_price", default: 0.0
+    t.boolean "is_finished", default: false
+    t.datetime "date", default: -> { "CURRENT_TIMESTAMP" }
+    t.bigint "table_id"
+    t.string "user_cpf", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["table_id"], name: "index_orders_on_table_id"
+    t.index ["user_cpf"], name: "index_orders_on_user_cpf"
   end
 
   create_table "products", force: :cascade do |t|
@@ -72,4 +76,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_20_142221) do
   add_foreign_key "lots", "products"
   add_foreign_key "order_lots", "lots"
   add_foreign_key "order_lots", "orders"
+  add_foreign_key "orders", "tables"
+  add_foreign_key "orders", "users", column: "user_cpf", primary_key: "cpf"
 end

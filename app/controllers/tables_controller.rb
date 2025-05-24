@@ -16,12 +16,23 @@ class TablesController < ApplicationController
     end
 
     def show
+        @order=@table.orders.find_by(is_finished: false)
 
         respond_to do |format|
             format.html 
             format.json do
                 if @table
-                    render json: @table
+                    render json:{ 
+                        table: @table,
+                        order: @order,
+                        order_lots: @order&.order_lots&.includes(lot: :product)&.map do |ol|
+                            {
+                            quantity: ol.quantity,
+                            subtotal: ol.subtotal,
+                            product_name: ol.lot.product.name
+                            }
+                        end
+                    }
                 else
                     head :not_found
                 end
