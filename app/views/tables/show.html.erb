@@ -38,6 +38,31 @@
             title: 'Adicionar Produto' do %>
           <i class="fas fa-edit mr-1"></i> Adicionar Produto
         <% end %>
+
+      
+      <% order_lots = @order.order_lots %>
+
+      <ul class="space-y-4"> <!-- Um embaixo do outro -->
+        <% order_lots.each do |order_lot| %>
+          <li class="bg-white rounded-xl shadow hover:shadow-lg transition duration-200 p-5 flex justify-between items-center">
+            <div>
+              <h2 class="text-lg font-semibold text-gray-700">
+                <%= order_lot.lot.product.name %> — <%= order_lot.quantity %> und. — entregue: <%= order_lot.is_delivered%>
+              </h2>
+            </div>
+            <div>
+              <%= button_to order_orders_lot_path(@order, order_lot),
+                  method: :delete,
+                  form_class: "inline",
+                  class: "text-sm px-4 py-2 border border-red-500 text-red-600 rounded hover:bg-red-50 transition",
+                  data: { confirm: "Tem certeza que deseja remover este item?" } do %>
+                <i class="fas fa-trash-alt mr-1"></i> Remover
+              <% end %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+
       </div>
       <hr class="border-t border-gray-200 my-6">
     <% end %>

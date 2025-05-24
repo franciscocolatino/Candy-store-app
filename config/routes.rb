@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   end
 
   resources :orders do
-    resources :orders_lots, only: [:new, :create]
+    resources :orders_lots, only: [:new, :create, :destroy]
   end
   resources :avaliable_lots, only: [:index]
 
