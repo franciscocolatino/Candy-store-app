@@ -32,7 +32,7 @@ class OrdersLotsController < ApplicationController
 
   def destroy
     @order = Order.find(params[:order_id])
-    
+
     order_id, lot_id = params[:id].split('_')
   
     # Encontra o registro usando a chave composta
@@ -45,5 +45,26 @@ class OrdersLotsController < ApplicationController
     @order_lot.destroy
 
     redirect_to @order.table, notice: 'Item removido com sucesso.'
+  end
+
+  def order_lot_delivered
+    @order = Order.find(params[:order_id])
+
+    order_id, lot_id = params[:id].split('_')
+  
+    # Encontra o registro usando a chave composta
+    order_lot = OrderLot.find_by!(order_id: order_id, lot_id: lot_id)
+    unless order_lot
+      redirect_to @order.table, alert: "Lote não encontrado!"
+      return
+    end
+
+    bool  = true
+    if order_lot.is_delivered
+      bool= false
+    end
+    order_lot.update!(is_delivered: bool)
+
+    redirect_to @order.table
   end
 end

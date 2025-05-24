@@ -33,11 +33,22 @@
     <% else %>
       <h2 class="text-gray-600 text-lg mb-3">📋 Pedido na mesa</h2>
       <div>
-        <%= link_to avaliable_lots_path(order_id: @order.id),
-            class: 'text-sm px-4 py-2 border border-indigo-500 text-indigo-600 rounded hover:bg-indigo-50 transition',
-            title: 'Adicionar Produto' do %>
-          <i class="fas fa-edit mr-1"></i> Adicionar Produto
-        <% end %>
+        <div>
+          <%= link_to avaliable_lots_path(order_id: @order.id),
+              class: 'text-sm px-4 py-2 border border-indigo-500 text-indigo-600 rounded hover:bg-indigo-50 transition',
+              title: 'Adicionar Produto' do %>
+            <i class="fas fa-edit mr-1"></i> Adicionar Produto
+          <% end %>
+        </div>
+        <div>
+          <%= button_to close_order_order_path(@order),
+                  method: :post,
+                  form_class: "inline",
+                  class: "text-sm px-4 py-2 border border-red-500 text-red-600 rounded hover:bg-red-50 transition",
+                  data: { confirm: "Tem certeza que deseja remover este item?" } do %>
+                <i class="fas fa-trash-alt mr-1"></i> Fechar Pedido
+            <% end %>
+        </div>
 
       
       <% order_lots = @order.order_lots %>
@@ -49,6 +60,14 @@
               <h2 class="text-lg font-semibold text-gray-700">
                 <%= order_lot.lot.product.name %> — <%= order_lot.quantity %> und. — entregue: <%= order_lot.is_delivered%>
               </h2>
+            </div>
+            <div>
+              <%= button_to order_lot_delivered_order_orders_lot_path(@order, order_lot),
+                  method: :post,
+                  form_class: "inline",
+                  class: "text-sm px-4 py-2 border border-indigo-500 text-indigo-600 rounded hover:bg-red-50 transition" do %>
+                <i class="fas fa-trash-alt mr-1"></i> Status
+              <% end %>
             </div>
             <div>
               <%= button_to order_orders_lot_path(@order, order_lot),
