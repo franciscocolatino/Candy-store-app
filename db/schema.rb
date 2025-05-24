@@ -68,7 +68,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_20_142221) do
   create_table "users", primary_key: "cpf", id: :string, force: :cascade do |t|
     t.string "name"
     t.string "password_digest"
-    t.boolean "is_admin"
+    t.boolean "is_admin", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
