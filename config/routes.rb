@@ -21,6 +21,9 @@ Rails.application.routes.draw do
 
   resources :tables
 
+  get 'dashboard', to: 'dashboard#show'
+
+
   get '/login', to: 'sessions#index'
   post '/login', to: 'sessions#login'
   get '/logout', to: 'sessions#logout'
