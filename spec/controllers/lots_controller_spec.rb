@@ -18,9 +18,9 @@ RSpec.describe LotsController, type: :controller do
     it "returns a list of lots" do
       lot1 = FactoryBot.create(:lot, product: product1, quantity: 10)
       lot2 = FactoryBot.create(:lot, product: product1, quantity: 20)
-  
+
       get :index, params: { product_id: product1.id }, format: :json
-  
+
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("10")
       expect(response.body).to include("20")
@@ -39,9 +39,9 @@ RSpec.describe LotsController, type: :controller do
   describe "GET /lots/:id" do
     it "returns a lot" do
       lot = FactoryBot.create(:lot, product: product1, quantity: 10)
-  
+
       get :show, params: { product_id: product1.id, id: lot.id }, format: :json
-  
+
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("10")
     end
@@ -50,9 +50,9 @@ RSpec.describe LotsController, type: :controller do
   describe "PUT /lots/:id" do
     it "updates a lot" do
       lot = FactoryBot.create(:lot, product: product1, quantity: 10)
-  
+
       put :update, params: { product_id: product1.id, id: lot.id, lot: { quantity: 20 } }, format: :json
-  
+
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("20")
     end
@@ -61,13 +61,11 @@ RSpec.describe LotsController, type: :controller do
   describe "DELETE /lots/:id" do
     it "deletes a lot" do
       lot = FactoryBot.create(:lot, product: product1, quantity: 10)
-  
+
       delete :destroy, params: { product_id: product1.id, id: lot.id }, format: :json
-  
+
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Lot deleted")
     end
   end
-
-
 end

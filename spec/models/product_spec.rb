@@ -14,7 +14,7 @@ RSpec.describe Product, type: :model do
   it "should not be valid without a description" do
     product = FactoryBot.build(:product, description: nil)
     expect(product).not_to be_valid
-  end 
+  end
 
   it "should not be valid without a category" do
     product = FactoryBot.build(:product, category: nil)

@@ -10,13 +10,16 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  #get "/teste", to: "static#index"
+  # get "/teste", to: "static#index"
   root "static#index"
-  
+
   resources :users
+  resources :avaliable_lots, only: [:index]
+  resources :tables
+
   resources :products do
     resources :lots
-    get 'inventory', on: :member, to: 'products#inventory', as: :inventory
+    get "inventory", on: :member, to: "products#inventory", as: :inventory
   end
 
   resources :orders do
@@ -31,14 +34,7 @@ Rails.application.routes.draw do
     end
   end
 
-
-
-  resources :avaliable_lots, only: [:index]
-
-  resources :tables
-
   get 'dashboard', to: 'dashboard#show'
-
 
   get '/login', to: 'sessions#index'
   post '/login', to: 'sessions#login'

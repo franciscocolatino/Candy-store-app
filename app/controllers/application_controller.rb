@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   def authenticate_request
     @current_user = Users::CheckAuth.call(cookies).result
-  
+
     redirect_to login_path unless @current_user
   end
 end
