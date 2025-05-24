@@ -6,7 +6,9 @@ class Lot < ApplicationRecord
     validates :manufacturing_date, presence: true
   
     validate :verify_expiration_date 
-  
+
+    has_many :order_lots
+
     private
   
     def verify_expiration_date

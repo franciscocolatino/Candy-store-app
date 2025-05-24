@@ -19,6 +19,22 @@ Rails.application.routes.draw do
     get 'inventory', on: :member, to: 'products#inventory', as: :inventory
   end
 
+  resources :orders do
+    resources :orders_lots, only: [:new, :create, :destroy] do
+      member do
+        post :order_lot_delivered
+      end
+    end
+
+    member do
+      post :close_order
+    end
+  end
+
+
+
+  resources :avaliable_lots, only: [:index]
+
   resources :tables
 
   get 'dashboard', to: 'dashboard#show'

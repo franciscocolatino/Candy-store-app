@@ -11,13 +11,15 @@
   <% if @tables.any? %>
     <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
       <% @tables.sort_by(&:number).each do |table| %>
-        <li class="bg-white rounded-xl shadow hover:shadow-lg transition duration-200 p-5 flex flex-col justify-between h-full">
-          <div class="mb-3">
-            <h2 class="text-lg font-semibold text-gray-700 mb-1">
-              <%= link_to table.number, table_path(table), class: "hover:text-indigo-600 transition" %>
-            </h2>
-          </div>
-        </li>
+        <%= link_to table_path(table), class: "block h-full" do %>
+          <li class="bg-white rounded-xl shadow hover:shadow-lg transition duration-200 p-5 flex flex-col justify-between h-full hover:bg-gray-50">
+            <div class="mb-3">
+              <h2 class="text-lg font-semibold text-gray-700 mb-1">
+                <%= table.number %>
+              </h2>
+            </div>
+          </li>
+        <% end %>
       <% end %>
     </ul>
   <% else %>
