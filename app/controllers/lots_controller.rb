@@ -1,6 +1,7 @@
 class LotsController < ApplicationController
   before_action :set_product
   before_action :set_lot, only: [ :show, :edit, :update, :destroy ]
+  before_action :is_admin?, only: %i[create update destroy]
 
   def index
     @lots = @product.lots.order(created_at: :desc)
@@ -41,6 +42,15 @@ class LotsController < ApplicationController
 
   private
 
+  def is_admin?
+    unless current_user&.is_admin
+      respond_to do |format|
+        format.html { redirect_to products_url, notice: "Apenas administradores podem fazer isso" }
+        format.json { render json: { error: "Apenas administradores podem fazer isso" }, status: :forbidden }
+      end
+    end
+  end
+  
   def set_product
     @product = Product.find(params[:product_id])
   end

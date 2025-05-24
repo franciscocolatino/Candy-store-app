@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: [ :show, :edit, :update, :destroy ]
+  before_action :is_admin?, only: %i[create update destroy]
 
   def index
     @products = Product.all
@@ -67,10 +68,14 @@ class ProductsController < ApplicationController
   end
 
   def destroy
-    @product.destroy
-    respond_to do |format|
-      format.json { render json: { message: "#{@product.name} deleted" }, status: :ok }
-      format.html { redirect_to products_url, notice: "Produto removido com sucesso." }
+    if @current_user&.is_admin
+      @product.destroy
+      respond_to do |format|
+        format.json { render json: { message: "#{@product.name} deleted" }, status: :ok }
+        format.html { redirect_to products_url, notice: "Produto removido com sucesso." }
+      end
+    else
+      redirect_to products_url, notice: "Apenas administradores podem remover produtos."
     end
   end
 
@@ -80,6 +85,15 @@ class ProductsController < ApplicationController
   end
 
   private
+
+  def is_admin?
+    unless current_user&.is_admin
+      respond_to do |format|
+        format.html { redirect_to products_url, notice: "Apenas administradores podem fazer isso" }
+        format.json { render json: { error: "Apenas administradores podem fazer isso" }, status: :forbidden }
+      end
+    end
+  end
 
   def set_product
     @product = Product.find(params[:id])
