@@ -42,17 +42,17 @@
             </tbody>
           </table>
       </div>
+    </div>
+    <div class="px-6 py-3 text-right" >
+        <p class="text-right font-semibold text-gray-700"> Total em Estoque:
+          <span class="px-6 py-3"><%= @lots.sum(:quantity) %> unidades</span>
+        </p>
+      </div>
     <% else %>
-      <div class="p-6 text-gray-700 bg-yellow-50 border-l-4 border-yellow-400 rounded-lg">
+      <div class="p-6 text-gray-700 bg-gray-100 border-l-4 border-gray-400 rounded-lg">
         <p class="mb-2 font-medium">Nenhum lote cadastrado para este produto.</p>
         <%= link_to 'Adicionar Primeiro Lote', new_product_lot_path(@product), class: 'inline-block mt-3 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 transition' %>
       </div>
     <% end %>
-  </div>
-  <div class="px-6 py-3 text-right" >
-  <p class="text-right font-semibold text-gray-700"> Total em Estoque:
-    <span class="px-6 py-3"><%= @lots.sum(:quantity) %> unidades</span>
-  </p>
-  </div>
           
 </div>

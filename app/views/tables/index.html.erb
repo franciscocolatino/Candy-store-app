@@ -1,0 +1,30 @@
+<div class="max-w-5xl mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">📦 Lista de Mesas</h1>
+    <% if @current_user.is_admin %>
+        <%= link_to new_table_path, class: "inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 transition" do %>
+        <i class="fas fa-plus mr-2"></i> Nova Mesa
+        <% end %>
+    <% end %>
+  </div>
+
+  <% if @tables.any? %>
+    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
+      <% @tables.sort_by(&:number).each do |table| %>
+        <%= link_to table_path(table), class: "block h-full" do %>
+          <li class="bg-white rounded-xl shadow hover:shadow-lg transition duration-200 p-5 flex flex-col justify-between h-full hover:bg-gray-50">
+            <div class="mb-3">
+              <h2 class="text-lg font-semibold text-gray-700 mb-1">
+                <%= table.number %>
+              </h2>
+            </div>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+  <% else %>
+    <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-4 rounded-md">
+      <p class="font-medium">Nenhuma mesa cadastrada.</p>
+    </div>
+  <% end %>
+</div>

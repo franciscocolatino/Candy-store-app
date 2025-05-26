@@ -9,7 +9,9 @@
         <% if @current_user.is_admin %>
         <%= @current_user.name %>
         <%= link_to 'Produtos', products_path, class: 'text-base text-[#9a3412] hover:text-[#c2410c] hover:scale-105 transition' %>
-        <%= link_to 'Membros', users_path, class: 'text-base text-[#9a3412] hover:text-[#c2410c] hover:scale-105 transition ' %>
+        <%= link_to 'Pedidos', orders_path, class: 'text-base text-[#9a3412] hover:text-[#c2410c] hover:scale-105 transition' %>
+        <%= link_to 'Membros', users_path, class: 'text-base text-[#9a3412] hover:text-[#c2410c] hover:scale-105 transition' %>
+        <%= link_to 'Dashboard', dashboard_path, class: 'text-base text-[#9a3412] hover:text-[#c2410c] hover:scale-105 transition' %>
       <% end %>
       <%= link_to "Minha conta", @current_user, class: "text-base text-[#9a3412] hover:text-[#c2410c] hover:scale-105 transition" %>
       <%= link_to 'Sair', logout_path, method: :get, class: 'text-base bg-[#c2410c] text-white px-6 py-2 rounded hover:bg-[#b91c1c] hover:scale-105 transition' %>
