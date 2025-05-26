@@ -1,10 +1,4 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-
-# Create sample products
-puts "Creating sample products..."
-
+# Criação de usuários
 User.create!(name: "Admin", cpf: "12345678901", password: "123", is_admin: true)
 User.create!(name: "Anderson Passos", cpf: "12345678903", password: "123", is_admin: true)
 User.create!(name: "Francisco Colatino", cpf: "12345678904", password: "123", is_admin: true)
@@ -12,9 +6,9 @@ User.create!(name: "Jônatas Leite", cpf: "12345678905", password: "123", is_adm
 User.create!(name: "Rayane Duarte", cpf: "12345678906", password: "123", is_admin: true)
 User.create!(name: "Thallys Alcantara", cpf: "12345678907", password: "123", is_admin: true)
 
-
 User.create!(name: "User", cpf: "12345678902", password: "123", is_admin: false)
 
+# Criação de produtos
 Product.create!([
   {
     name: "Bolo de Chocolate",
@@ -78,23 +72,92 @@ Product.create!([
   }
 ])
 
+# Criação dos lotes
 products = Product.all
 
-  products.each do |product|
-    Lot.create!(
-      product: product,
-      quantity: 20,
-      manufacturing_date: Date.today - 10,
-      expiration_date: Date.today + 20
-    )
+products.each do |product|
+  Lot.create!(
+    product: product,
+    quantity: 20,
+    manufacturing_date: Date.today - 10,
+    expiration_date: Date.today + 20
+  )
 
-    Lot.create!(
-      product: product,
-      quantity: 15,
-      manufacturing_date: Date.today - 5,
-      expiration_date: Date.today + 25
-    )
-  end
+  Lot.create!(
+    product: product,
+    quantity: 15,
+    manufacturing_date: Date.today - 5,
+    expiration_date: Date.today + 25
+  )
+end
 
+# Criação das mesas
+tables = []
+5.times do |i|
+  tables << Table.create!(number: i + 1)
+end
+
+# Criação de pedidos simulados
+user = User.find_by(cpf: "12345678902")
+lots = Lot.all
+
+# Pedido 1 - Mesa 1
+order1 = Order.create!(
+  user_cpf: user.cpf,
+  table: tables[0],
+  is_finished: false,
+  total_price: 0.0
+)
+
+OrderLot.create!(
+  order: order1,
+  lot: lots.sample,
+  quantity: 2,
+  subtotal: lots.sample.product.price * 2
+)
+
+order1.update!(total_price: order1.order_lots.sum(:subtotal))
+
+# Pedido 2 - Mesa 2
+order2 = Order.create!(
+  user_cpf: user.cpf,
+  table: tables[1],
+  is_finished: false,
+  total_price: 0.0
+)
+
+OrderLot.create!(
+  order: order2,
+  lot: lots.sample,
+  quantity: 1,
+  subtotal: lots.sample.product.price * 1
+)
+
+OrderLot.create!(
+  order: order2,
+  lot: lots.sample,
+  quantity: 3,
+  subtotal: lots.sample.product.price * 3
+)
+
+order2.update!(total_price: order2.order_lots.sum(:subtotal))
+
+# Pedido 3 - Mesa 3 (finalizado)
+order3 = Order.create!(
+  user_cpf: user.cpf,
+  table: tables[2],
+  is_finished: true,
+  total_price: 0.0,
+  date: Date.today - 1
+)
+
+OrderLot.create!(
+  order: order3,
+  lot: lots.sample,
+  quantity: 4,
+  subtotal: lots.sample.product.price * 4
+)
+
+order3.update!(total_price: order3.order_lots.sum(:subtotal))
 
 puts "Seed data created successfully!"
