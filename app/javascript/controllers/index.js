@@ -10,5 +10,8 @@ application.register("users-cpf-validator", Users__CpfValidatorController)
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
+import DropdownController from "./dropdown_controller"
+application.register("dropdown", DropdownController)
+
 import Users__UpdatePasswordModalController from "./users/update_password_modal_controller"
 application.register("users-update-password-modal", Users__UpdatePasswordModalController)
