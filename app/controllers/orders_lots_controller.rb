@@ -24,7 +24,7 @@ class OrdersLotsController < ApplicationController
       end
     end
 
-    redirect_to @order.table, notice: 'itens adicionados com sucesso!'
+    redirect_to @order, notice: 'itens adicionados com sucesso!'
   rescue ActiveRecord::RecordInvalid => e
     redirect_to order_avaliable_lots_path(@order), alert: 'Erro ao adicionar itens'
   end
@@ -37,14 +37,10 @@ class OrdersLotsController < ApplicationController
   
     # Encontra o registro usando a chave composta
     @order_lot = OrderLot.find_by!(order_id: order_id, lot_id: lot_id)
-    
-    lot= @order_lot.lot
-    new_quantity = lot.quantity + @order_lot.quantity
-    lot.update!(quantity: new_quantity)
 
     @order_lot.destroy
 
-    redirect_to @order.table, notice: 'Item removido com sucesso.'
+    redirect_to @order, notice: 'Item removido com sucesso.'
   end
 
   def order_lot_delivered
@@ -65,6 +61,6 @@ class OrdersLotsController < ApplicationController
     end
     order_lot.update!(is_delivered: bool)
 
-    redirect_to @order.table
+    redirect_to @order
   end
 end

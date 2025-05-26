@@ -1,5 +1,5 @@
 class TablesController < ApplicationController
-    before_action :set_table, only: [:show, :edit, :update]
+    before_action :set_table, only: [:show, :edit, :update, :destroy]
 
     def index
         @tables= Table.all
@@ -83,6 +83,20 @@ class TablesController < ApplicationController
         end
     end        
 
+    def destroy
+        if @current_user&.is_admin
+            if @table.orders.exists? 
+                 redirect_to @table, alert: 'Não é possível excluir uma mesa com pedidos.'
+            else
+                @table.destroy
+                redirect_to tables_path,notice: 'Mesa removida com sucesso.'
+            end
+        else
+            redirect_to @table, alert: 'Acesso não autorizado.'
+        end
+
+    end
+    
 
     private
 
