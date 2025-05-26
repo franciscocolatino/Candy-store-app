@@ -1,0 +1,99 @@
+<div class="max-w-7xl mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="text-2xl font-bold text-gray-800">📋 Todos os Pedidos</h1>
+  </div>
+
+  <!-- Filtros -->
+  <div class="bg-white rounded-lg shadow p-6 mb-8">
+    <h2 class="text-lg font-semibold text-gray-700 mb-4">Filtros</h2>
+    <%= form_with url: orders_path, method: :get, class: 'space-y-4' do |f| %>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+          <select name="status" class="w-full border border-gray-300 rounded-md p-2">
+            <option value="">Todos</option>
+            <option value="pending" <%= 'selected' if params[:status] == 'pending' %>>Pendentes</option>
+            <option value="finished" <%= 'selected' if params[:status] == 'finished' %>>Finalizados</option>
+          </select>
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Mesa</label>
+          <select name="table_id" class="w-full border border-gray-300 rounded-md p-2">
+            <option value="">Todas as Mesas</option>
+            <% @tables.each do |table| %>
+              <option value="<%= table.id %>" <%= 'selected' if params[:table_id].to_i == table.id %>>
+                Mesa <%= table.number %>
+              </option>
+            <% end %>
+          </select>
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Data Inicial</label>
+          <input type="date" name="start_date" value="<%= params[:start_date] %>" class="w-full border border-gray-300 rounded-md p-2">
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Data Final</label>
+          <input type="date" name="end_date" value="<%= params[:end_date] %>" class="w-full border border-gray-300 rounded-md p-2">
+        </div>
+      </div>
+      
+      <div class="flex justify-end space-x-3 mt-4">
+        <%= link_to 'Limpar', orders_path, class: 'px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50' %>
+        <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
+          Filtrar
+        </button>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Lista de Pedidos -->
+  <div class="bg-white shadow overflow-hidden sm:rounded-md">
+    <ul class="divide-y divide-gray-200">
+      <% if @orders.any? %>
+        <% @orders.each do |order| %>
+          <li class="hover:bg-gray-50">
+            <%= link_to order_path(order), class: 'block' do %>
+              <div class="px-4 py-4 sm:px-6">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center">
+                    <p class="text-sm font-medium text-indigo-600 truncate">
+                      Pedido #<%= order.id %> - Mesa <%= order.table.number %>
+                    </p>
+                    <span class="ml-2 px-2.5 py-0.5 rounded-full text-xs font-medium <%= order.is_finished ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' %>">
+                      <%= order.is_finished ? 'Finalizado' : 'Em andamento' %>
+                    </span>
+                  </div>
+                  <div class="ml-2 flex-shrink-0 flex">
+                    <p class="text-sm text-gray-900">
+                      <%= l(order.created_at, format: :long) %>
+                    </p>
+                  </div>
+                </div>
+                <div class="mt-2 sm:flex sm:justify-between">
+                  <div class="sm:flex">
+                    <p class="flex items-center text-sm text-gray-500">
+                      <% total_items = order.order_lots.sum(:quantity) %>
+                      <%= total_items %> <%= 'item'.pluralize(total_items) %>
+                    </p>
+                  </div>
+                  <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                    <p>
+                      Total: R$ <%= number_to_currency(order.order_lots.sum { |ol| ol.quantity * ol.lot.product.price }, unit: '', separator: ',', delimiter: '.') %>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </li>
+        <% end %>
+      <% else %>
+        <li class="px-4 py-6 text-center text-gray-500">
+          Nenhum pedido encontrado com os filtros atuais.
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

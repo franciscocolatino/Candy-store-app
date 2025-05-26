@@ -4,8 +4,10 @@ class Lot < ApplicationRecord
     validates :quantity, presence: true
     validates :expiration_date, presence: true
     validates :manufacturing_date, presence: true
+  
+    validate :verify_expiration_date 
 
-    validate :verify_expiration_date
+    has_many :order_lots
 
     private
 

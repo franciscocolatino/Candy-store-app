@@ -14,14 +14,31 @@ Rails.application.routes.draw do
   root "static#index"
 
   resources :users
+  resources :avaliable_lots, only: [:index]
+  resources :tables
+
   resources :products do
     resources :lots
     get "inventory", on: :member, to: "products#inventory", as: :inventory
   end
 
-  get "/login", to: "sessions#index"
-  post "/login", to: "sessions#login"
-  get "/logout", to: "sessions#logout"
+  resources :orders do
+    resources :orders_lots, only: [:new, :create, :destroy] do
+      member do
+        post :order_lot_delivered
+      end
+    end
 
-  patch "users/:id/update_password", to: "users#update_password", as: :password_update
+    member do
+      post :close_order
+    end
+  end
+
+  get 'dashboard', to: 'dashboard#show'
+
+  get '/login', to: 'sessions#index'
+  post '/login', to: 'sessions#login'
+  get '/logout', to: 'sessions#logout'
+  
+  patch 'users/:id/update_password', to: 'users#update_password', as: :password_update
 end

@@ -87,7 +87,7 @@ class ProductsController < ApplicationController
   private
 
   def is_admin?
-    unless current_user&.is_admin
+    unless @current_user&.is_admin
       respond_to do |format|
         format.html { redirect_to products_url, notice: "Apenas administradores podem fazer isso" }
         format.json { render json: { error: "Apenas administradores podem fazer isso" }, status: :forbidden }

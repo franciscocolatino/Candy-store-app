@@ -23,7 +23,9 @@
     <div class="space-x-8 text-sm font-medium">
       <% if @current_user.is_admin %>
         <%= link_to 'Produtos', products_path, class: 'text-[#9a3412] hover:text-[#c2410c] transition' %>
+        <%= link_to 'Pedidos', orders_path, class: 'text-[#9a3412] hover:text-[#c2410c] transition' %>
         <%= link_to 'Membros', users_path, class: 'text-[#9a3412] hover:text-[#c2410c] transition' %>
+        <%= link_to 'Dashboard', dashboard_path, class: 'text-[#9a3412] hover:text-[#c2410c] transition' %>
       <% end %>
       <%= link_to "Minha conta", edit_user_path(@current_user), class: "text-[#9a3412] hover:text-[#c2410c] transition" %>
       <%= link_to 'Sair', logout_path, method: :get, class: 'bg-[#c2410c] text-white px-4 py-2 rounded hover:bg-[#b91c1c] transition' %>
@@ -35,9 +37,7 @@
     <h1 class="text-4xl md:text-5xl font-bold text-[#b91c1c] mb-4">Bem-vindo ao Sistema de Controle da Confeitaria</h1>
     <p class="text-lg text-[#5b3a29] mb-8">Gerencie de forma fácil e eficiente as vendas por mesas e pedidos para retirada.</p>
     <div class="flex justify-center gap-6">
-      <a href="#" class="bg-[#d97706] hover:bg-[#c2410c] text-white px-6 py-3 rounded-md shadow-lg text-lg transition">
-        Atendimento por Mesa
-      </a>
+      <%= link_to 'Atendimento por Mesa', tables_path, class: "bg-[#d97706] hover:bg-[#c2410c] text-white px-6 py-3 rounded-md shadow-lg text-lg transition" %>
       <%= link_to 'Pedidos para Retirada', products_path, class: 'bg-[#9a3412] hover:bg-[#7c2d12] text-white px-6 py-3 rounded-md shadow-lg text-lg transition' %>
     </div>
   </div>
