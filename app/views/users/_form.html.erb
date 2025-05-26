@@ -12,7 +12,7 @@
     </div>
   <% end %>
 
-  <div class="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12">
+  <div class="min-h-screen flex items-center justify-center px-4 py-12">
   <div class="max-w-md w-full bg-white p-10 rounded-2xl shadow-2xl">
     <h1 class="text-4xl font-bold text-center mb-8 text-gray-900"><%= title %></h1>
 
@@ -59,8 +59,9 @@
         <%= form.submit "Salvar", class: "inline-flex w-full justify-center px-4 py-3 text-base font-semibold rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-md transition" %>
       </div>
 
-      <% if title == "Cadastrar Usuário" %>
 
+      <!-- <% if user.id.blank?  %> fazer uma verificação -->
+      
         <div class="text-center mt-8">
           <p class="text-base text-gray-600">
             Já possui uma conta?

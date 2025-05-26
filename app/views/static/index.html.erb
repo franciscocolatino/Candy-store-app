@@ -1,79 +1,41 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sistema de Controle - Confeitaria</title>
+<div class="bg-gradient-to-br from-[#fde8e4] via-[#f9dcd3] to-[#fbe7de] min-h-screen text-gray-800 pb-16">
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/859/859270.png" />
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-    }
-  </style>
-</head>
-<body class="bg-gradient-to-br from-[#fde8e4] via-[#f9dcd3] to-[#fbe7de] min-h-screen text-gray-800">
-
-  <!-- Navbar -->
-  <nav class="bg-white shadow-md py-5 px-8 flex justify-between items-center">
-    <div class="text-2xl font-bold text-[#c2410c] tracking-wide">Candy Shop</div>
-    <div class="space-x-8 text-sm font-medium">
-      <% if @current_user.is_admin %>
-        <%= link_to 'Produtos', products_path, class: 'text-[#9a3412] hover:text-[#c2410c] transition' %>
-        <%= link_to 'Membros', users_path, class: 'text-[#9a3412] hover:text-[#c2410c] transition' %>
-      <% end %>
-      <%= link_to "Minha conta", edit_user_path(@current_user), class: "text-[#9a3412] hover:text-[#c2410c] transition" %>
-      <%= link_to 'Sair', logout_path, method: :get, class: 'bg-[#c2410c] text-white px-4 py-2 rounded hover:bg-[#b91c1c] transition' %>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
   <div class="text-center py-16 px-6 md:px-16">
     <h1 class="text-4xl md:text-5xl font-bold text-[#b91c1c] mb-4">Bem-vindo ao Sistema de Controle da Confeitaria</h1>
     <p class="text-lg text-[#5b3a29] mb-8">Gerencie de forma fácil e eficiente as vendas por mesas e pedidos para retirada.</p>
     <div class="flex justify-center gap-6">
-      <a href="#" class="bg-[#d97706] hover:bg-[#c2410c] text-white px-6 py-3 rounded-md shadow-lg text-lg transition">
+      <a href="#" class="bg-[#d97706] hover:bg-[#c2410c] text-white px-6 py-3 rounded-md shadow-lg text-lg hover:scale-105 transition">
         Atendimento por Mesa
       </a>
-      <%= link_to 'Pedidos para Retirada', products_path, class: 'bg-[#9a3412] hover:bg-[#7c2d12] text-white px-6 py-3 rounded-md shadow-lg text-lg transition' %>
+      <%= link_to 'Pedidos para Retirada', products_path, class: 'bg-[#9a3412] hover:bg-[#7c2d12] text-white px-6 py-3 rounded-md shadow-lg text-lg hover:scale-105 transition' %>
     </div>
   </div>
 
-  <!-- Galeria de Doces -->
   <div class="py-16 px-6 bg-white shadow-xl mx-4 rounded-lg">
     <h2 class="text-3xl font-bold text-[#c2410c] text-center mb-8">Nossos Melhores Doces</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-      <div class="bg-[#fff7f5] rounded-lg overflow-hidden shadow-lg">
+      <div class="bg-[#fff7f5] rounded-lg overflow-hidden shadow-lg hover:scale-105 transition">
         <img src="https://fabindustria.com.br/wp-content/uploads/2020/10/cupcakes-coloridos-com-creme-de-arco-iris_87414-3865.jpg" alt="Cupcakes coloridos" class="w-full h-80 object-cover" />
         <div class="p-4 text-[#4b2c20]">
-          <h3 class="font-bold text-lg">Cupcakes Coloridos</h3>
+          <h3 class="font-bold text-lg font-serif">Cupcakes Coloridos</h3>
           <p class="text-sm">Deliciosos e fresquinhos, feitos com os melhores ingredientes.</p>
         </div>
       </div>
-      <div class="bg-[#fff7f5] rounded-lg overflow-hidden shadow-lg">
+      <div class="bg-[#fff7f5] rounded-lg overflow-hidden shadow-lg hover:scale-105 transition">
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSySfA9DkhLI8VwvPhanKeKLm-w7vBOO4NdZg&s" alt="Croissants amanteigados" class="w-full h-80 object-cover" />
         <div class="p-4 text-[#4b2c20]">
-          <h3 class="font-bold text-lg">Croissants Amanteigados</h3>
+          <h3 class="font-bold text-lg font-serif">Croissants Amanteigados</h3>
           <p class="text-sm">Croissants crocantes, dourados e cheios de sabor.</p>
         </div>
       </div>
-      <div class="bg-[#fff7f5] rounded-lg overflow-hidden shadow-lg">
+      <div class="bg-[#fff7f5] rounded-lg overflow-hidden shadow-lg hover:scale-105 transition">
         <img src="https://confeiteiracriativa.com.br/wp-content/uploads/2024/01/bolo-de-chocolate-confeitado.webp" alt="Bolo de Chocolate" class="w-full h-80 object-cover" />
         <div class="p-4 text-[#4b2c20]">
-          <h3 class="font-bold text-lg">Bolo de Chocolate</h3>
+          <h3 class="font-bold text-lg font-serif">Bolo de Chocolate</h3>
           <p class="text-sm">Um bolo rico e indulgente, perfeito para os amantes de chocolate.</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Rodapé -->
-  <footer class="text-center text-sm text-[#6b4226] mt-16 py-6 border-t border-[#f5cfc3]">
-    &copy; 2025 Sistema Confeitaria. Todos os direitos reservados.
-  </footer>
-
-</body>
-</html>
+</div>

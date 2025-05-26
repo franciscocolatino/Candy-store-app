@@ -1,0 +1,19 @@
+<% if @current_user %>
+  <nav class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
+      <div class="text-3xl font-bold text-[#c2410c] tracking-wide hover:text-[#9a3412] transition">
+        <%= link_to "Candy Shop", root_path %>
+      </div>
+
+      <div class="space-x-8 text-sm font-medium flex items-center">
+        <% if @current_user.is_admin %>
+        <%= @current_user.name %>
+        <%= link_to 'Produtos', products_path, class: 'text-base text-[#9a3412] hover:text-[#c2410c] hover:scale-105 transition' %>
+        <%= link_to 'Membros', users_path, class: 'text-base text-[#9a3412] hover:text-[#c2410c] hover:scale-105 transition ' %>
+      <% end %>
+      <%= link_to "Minha conta", @current_user, class: "text-base text-[#9a3412] hover:text-[#c2410c] hover:scale-105 transition" %>
+      <%= link_to 'Sair', logout_path, method: :get, class: 'text-base bg-[#c2410c] text-white px-6 py-2 rounded hover:bg-[#b91c1c] hover:scale-105 transition' %>
+    </div>
+  </nav>
+<% end %>
+  
