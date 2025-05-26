@@ -12,6 +12,12 @@ class DashboardController < ApplicationController
       return render json: { error: 'Tipo de relatório inválido' }, status: :bad_request
     end
 
+    # Notifica o front-end via Action Cable
+    # ActionCable.server.broadcast("dashboard_channel", {
+    #   type: params[:type],
+    #   payload: report
+    # })
+
     render json: report
   end
 
