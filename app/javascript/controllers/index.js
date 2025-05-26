@@ -12,3 +12,6 @@ application.register("hello", HelloController)
 
 import Users__UpdatePasswordModalController from "./users/update_password_modal_controller"
 application.register("users-update-password-modal", Users__UpdatePasswordModalController)
+
+import DashboardController from "./dashboard_controller"
+application.register("dashboard", DashboardController)
