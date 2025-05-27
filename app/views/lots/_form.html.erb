@@ -2,7 +2,7 @@
   <div class="bg-white shadow-xl rounded-2xl overflow-hidden">
     <div class="px-6 py-5 border-b border-gray-200 flex justify-between items-center">
       <h1 class="text-2xl font-semibold text-gray-800 flex items-center"> <%= title %> <%= @product.name %></h1>
-      <%= link_to "Voltar", products_path, 
+      <%= link_to "Voltar", product_lots_path(@product), 
         class: 'text-sm px-4 py-2 border border-gray-400 text-gray-700 rounded hover:bg-gray-700 hover:border-gray-700 hover:text-white transition', 
         title: 'Voltar para a lista de produtos'
       %>

@@ -3,20 +3,22 @@
     <div class="px-6 py-5 border-b border-gray-200 flex justify-between items-center">
       <h1 class="text-2xl font-semibold text-gray-800 flex items-center"> <%= @product.name %> </h1>
       <div class="flex space-x-2">
-        <%= link_to "Editar", edit_product_path(@product), 
-          class: 'text-sm px-4 py-2 border border-indigo-500 text-indigo-600 rounded hover:bg-indigo-600 hover:text-white transition', 
-          title: 'Editar produto'
-        %>
-        <%= link_to "Voltar", products_path, 
+        <% if @current_user.is_admin? %>  
+
+          <%= link_to "Editar", edit_product_path(@product), 
+              class: 'text-sm px-4 py-2 border border-indigo-500 text-indigo-600 rounded hover:bg-indigo-600 hover:text-white transition', 
+              title: 'Editar produto'
+            %>
+        <% end %>
+          <%= link_to "Voltar", products_path, 
           class: 'text-sm px-4 py-2 border border-gray-400 text-gray-700 rounded hover:bg-gray-700 hover:border-gray-700 hover:text-white transition', 
           title: 'Voltar para a lista de produtos'
         %>
       </div>
     </div>
 
-    <!-- Conteúdo principal -->
     <div class="px-6 py-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-      <!-- Informações do Produto -->
+
       <div>
         <h2 class="text-gray-600 text-lg mb-3">📋 Informações do Produto</h2>
         <span class="inline-block bg-red-100 text-red-800 text-sm px-3 py-1 rounded-full mb-4"><%= @product.category %></span>
@@ -37,8 +39,10 @@
               <p class="text-sm text-gray-500 mb-1">Estoque Total</p>
               <div class="text-xl font-semibold text-gray-800"><%= @product.lots.sum(:quantity) %> unidades</div>
             </div>
-            <%= link_to "Gerenciar", product_lots_path(@product), class: 'bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700 transition' %>
-          </div>
+              <% if @current_user.is_admin? %>  
+                <%= link_to "Gerenciar", product_lots_path(@product), class: 'bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700 transition' %>
+              <% end %>
+            </div>
 
           <% if @product.lots.any? %>
             <p class="text-xs uppercase text-gray-400 mb-2">Lotes disponíveis</p>

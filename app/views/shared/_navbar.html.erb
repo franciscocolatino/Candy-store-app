@@ -7,11 +7,13 @@
       </div>
 
       <div class="flex items-center space-x-6">
-
+      
       <div class="hidden md:flex space-x-8 text-sm font-medium items-center">
-          <% if @current_user.is_admin %>
+          
+        <%= link_to 'Mesas', tables_path, class: 'text-base text-[#9a3412] hover:text-[#c2410c] hover:scale-105 transition' %>  
+        <%= link_to 'Produtos', products_path, class: 'text-base text-[#9a3412] hover:text-[#c2410c] hover:scale-105 transition' %>
+        <% if @current_user.is_admin %>
             <%= link_to 'Pedidos', orders_path, class: 'text-base text-[#9a3412] hover:text-[#c2410c] hover:scale-105 transition' %>
-            <%= link_to 'Produtos', products_path, class: 'text-base text-[#9a3412] hover:text-[#c2410c] hover:scale-105 transition' %>
             <%= link_to 'Membros', users_path, class: 'text-base text-[#9a3412] hover:text-[#c2410c] hover:scale-105 transition' %>
             <%= link_to 'Dashboard', dashboard_path, class: 'text-base text-[#9a3412] hover:text-[#c2410c] hover:scale-105 transition' %>
           <% end %>
