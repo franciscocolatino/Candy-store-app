@@ -21,6 +21,7 @@ class OrdersLotsController < ApplicationController
             raise ActiveRecord::Rollback, "Quantidade insuficiente no lote #{lot.id}"
         end
         lot.update!(quantity: new_quantity)
+        @order.update(total_price: @order.order_lots.includes(lot: :product).sum { |ol| ol.quantity * ol.lot.product.price })
       end
     end
 
@@ -39,6 +40,7 @@ class OrdersLotsController < ApplicationController
     @order_lot = OrderLot.find_by!(order_id: order_id, lot_id: lot_id)
 
     @order_lot.destroy
+    @order.update(total_price: @order.order_lots.includes(lot: :product).sum { |ol| ol.quantity * ol.lot.product.price })
 
     redirect_to @order, notice: 'Item removido com sucesso.'
   end

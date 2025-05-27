@@ -1,5 +1,6 @@
 class TablesController < ApplicationController
-    before_action :set_table, only: [:show, :edit, :update, :destroy]
+    before_action :set_table, only: [:show, :edit, :update, :destroy]  
+    before_action :is_admin?, only: %i[create new edit update destroy]
 
     def index
         @tables= Table.all
@@ -99,6 +100,15 @@ class TablesController < ApplicationController
     
 
     private
+
+    def is_admin?
+        unless @current_user&.is_admin
+            respond_to do |format|
+                format.html { redirect_to tables_path, notice: "Apenas administradores podem fazer isso" }
+                format.json { render json: { error: "Apenas administradores podem fazer isso" }, status: :forbidden }
+            end
+        end
+    end
 
     def set_table
         @table=Table.find_by(id: params[:id])

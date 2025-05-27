@@ -19,7 +19,6 @@ Rails.application.routes.draw do
 
   resources :products do
     resources :lots
-    get "inventory", on: :member, to: "products#inventory", as: :inventory
   end
 
   resources :orders do
@@ -35,6 +34,14 @@ Rails.application.routes.draw do
   end
 
   get 'dashboard', to: 'dashboard#show'
+  
+  get 'forbidden', to: 'errors#forbidden'
+  get 'not_found', to: 'errors#not_found'
+
+  match '/404', to: 'errors#not_found', via: :all
+  match '/403', to: 'errors#forbidden', via: :all
+  match '/500', to: 'errors#internal_server_error', via: :all
+
 
   get '/login', to: 'sessions#index'
   post '/login', to: 'sessions#login'

@@ -12,6 +12,7 @@ module StoreApp
     config.load_defaults 8.0
     config.time_zone = 'America/Sao_Paulo'
     config.i18n.default_locale = :'pt-BR'
+    config.exceptions_app = self.routes
 
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do

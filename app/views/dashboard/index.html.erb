@@ -1,304 +1,74 @@
-<!-- app/views/dashboard/index.html.erb -->
-
-<div class="max-w-7xl mx-auto p-6 bg-gray-50 min-h-screen" data-controller="dashboard">
-
-  <h1 class="text-4xl font-extrabold mb-8 text-gray-800">Dashboard</h1>
-
-  <div class="flex flex-col md:flex-row md:space-x-8">
-
-    <!-- Coluna filtros -->
-    <div class="w-full md:w-1/4 bg-white rounded-lg shadow p-6 mb-8 md:mb-0">
-
-      <label for="dashboard-type" class="block mb-2 font-semibold text-gray-700">Escolha o tipo de relatório:</label>
-      <select id="dashboard-type" onchange="toggleFilters()" class="w-full border border-gray-300 rounded px-3 py-2 mb-6 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-        <option value="orders">Relatório de Pedidos</option>
-        <option value="stock">Relatório de Estoque</option>
+<div data-controller="dashboard" class="max-w-6xl mx-auto p-6">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+    <div>
+      <label for="dashboard-type" class="block text-sm font-medium text-gray-700">Tipo de dashboard</label>
+      <select id="dashboard-type" data-dashboard-target="type" data-action="change->dashboard#toggleFilters" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+        <option value="">Selecione</option>
+        <option value="orders">Pedidos</option>
+        <option value="stock">Estoque</option>
       </select>
-
-      <div id="order-filters" class="space-y-4">
-        <h3 class="text-lg font-semibold mb-3">Filtros para Pedidos</h3>
-
-        <label class="block">
-          Data inicial:
-          <input type="date" id="start-date" class="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-        </label>
-
-        <label class="block">
-          Data final:
-          <input type="date" id="end-date" class="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-        </label>
-
-        <label class="block">
-          Status:
-          <select id="is-finished" class="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-            <option value="">Todos</option>
-            <option value="true">Finalizados</option>
-            <option value="false">Pendentes</option>
-          </select>
-        </label>
-
-        <label class="block">
-          Valor mínimo:
-          <input type="number" id="min-total" step="0.01" class="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-        </label>
-
-        <label class="block">
-          Valor máximo:
-          <input type="number" id="max-total" step="0.01" class="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-        </label>
-
-      </div>
-
-      <button id="load-btn" onclick="loadDashboard()" class="mt-6 w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition-colors">
-        Carregar
-      </button>
-
     </div>
 
-    <!-- Coluna dados -->
-    <div class="w-full md:w-3/4">
-
-      <!-- Mensagem ou loading -->
-      <div id="dashboard-output" class="bg-white rounded shadow p-6 min-h-[300px] text-gray-700 font-mono whitespace-pre-wrap overflow-auto">
-        Selecione um tipo de dashboard...
+    <div id="order-filters" data-dashboard-target="orderFilters" class="md:col-span-3 grid grid-cols-1 md:grid-cols-5 gap-4 hidden">
+      <div>
+        <label for="start-date" class="block text-sm font-medium text-gray-700">Data início</label>
+        <input type="date" id="start-date" data-dashboard-target="startDate" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
       </div>
-
-      <!-- Gráfico -->
-      <canvas id="dashboard-chart" class="mt-8 bg-white rounded shadow p-4" style="max-height: 300px; width: 100%;"></canvas>
-
-      <!-- Tabela simples -->
-      <div id="dashboard-table-container" class="mt-8 bg-white rounded shadow p-4 overflow-auto hidden max-h-[400px]">
-        <table class="min-w-full divide-y divide-gray-200 table-auto">
-          <thead class="bg-gray-50">
-            <tr>
-              <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-              <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data</th>
-              <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-              <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
-            </tr>
-          </thead>
-          <tbody id="dashboard-table-body" class="bg-white divide-y divide-gray-200">
-            <!-- Linhas dinâmicas aqui -->
-          </tbody>
-        </table>
+      <div>
+        <label for="end-date" class="block text-sm font-medium text-gray-700">Data fim</label>
+        <input type="date" id="end-date" data-dashboard-target="endDate" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
       </div>
-
+      <div>
+        <label for="is-finished" class="block text-sm font-medium text-gray-700">Status</label>
+        <select id="is-finished" data-dashboard-target="isFinished" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+          <option value="">Todos</option>
+          <option value="true">Finalizado</option>
+          <option value="false">Pendente</option>
+        </select>
+      </div>
+      <div>
+        <label for="min-total" class="block text-sm font-medium text-gray-700">Valor mín</label>
+        <input type="number" step="0.01" id="min-total" data-dashboard-target="minTotal" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+      </div>
+      <div>
+        <label for="max-total" class="block text-sm font-medium text-gray-700">Valor máx</label>
+        <input type="number" step="0.01" id="max-total" data-dashboard-target="maxTotal" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+      </div>
     </div>
   </div>
 
+  <div class="mt-6 text-right">
+    <button
+      id="load-btn"
+      data-dashboard-target="loadBtn"
+      data-action="click->dashboard#loadDashboard"
+      class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-white hover:bg-indigo-700"
+    >
+      Carregar
+    </button>
+  </div>
+
+  <div class="mt-8 space-y-6">
+    <div id="dashboard-output" data-dashboard-target="output" class="prose max-w-none">
+      <p class="text-gray-500">Selecione um tipo de dashboard...</p>
+    </div>
+
+    <canvas id="dashboard-chart" data-dashboard-target="chart" class="w-full h-64" style="display: none;"></canvas>
+
+    <div id="dashboard-table-container" data-dashboard-target="tableContainer" class="overflow-x-auto hidden">
+      <table class="min-w-full divide-y divide-gray-200 table-auto border mt-4">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Data</th>
+            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Valor</th>
+          </tr>
+        </thead>
+        <tbody id="dashboard-table-body" data-dashboard-target="tableBody" class="bg-white divide-y divide-gray-200">
+          <!-- Dados dinâmicos aqui -->
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-  function toggleFilters() {
-    const type = document.getElementById('dashboard-type').value;
-    document.getElementById('order-filters').style.display = (type === 'orders') ? 'block' : 'none';
-    clearDashboard();
-  }
-
-  function clearDashboard() {
-    document.getElementById('dashboard-output').textContent = 'Selecione um tipo de dashboard...';
-    document.getElementById('dashboard-table-container').classList.add('hidden');
-    const chartCanvas = document.getElementById('dashboard-chart');
-    chartCanvas.style.display = 'none'; // esconde o canvas quando limpa
-
-    if(window.myChart) {
-      window.myChart.destroy();
-      window.myChart = null;
-    }
-  }
-
-  async function loadDashboard() {
-    const loadBtn = document.getElementById('load-btn');
-    loadBtn.disabled = true;
-    loadBtn.textContent = 'Carregando...';
-
-    const type = document.getElementById('dashboard-type').value;
-    const output = document.getElementById('dashboard-output');
-    const chartCanvas = document.getElementById('dashboard-chart');
-
-    const params = new URLSearchParams();
-    params.append('type', type);
-
-    if (type === 'orders') {
-      const startDate = document.getElementById('start-date').value;
-      const endDate = document.getElementById('end-date').value;
-      const isFinished = document.getElementById('is-finished').value;
-      const minTotal = document.getElementById('min-total').value;
-      const maxTotal = document.getElementById('max-total').value;
-
-      if (startDate) params.append('start_date', startDate);
-      if (endDate) params.append('end_date', endDate);
-      if (isFinished !== '') params.append('is_finished', isFinished);
-      if (minTotal) params.append('min_total', minTotal);
-      if (maxTotal) params.append('max_total', maxTotal);
-    }
-
-    output.textContent = 'Carregando relatório...';
-    document.getElementById('dashboard-table-container').classList.add('hidden');
-    chartCanvas.style.display = 'none';
-
-    try {
-      const res = await fetch(`/dashboard?${params.toString()}`, { headers: { Accept: 'application/json' } });
-      if (!res.ok) throw new Error('Erro na requisição');
-
-      const data = await res.json();
-
-      if (type === 'orders') {
-        output.textContent = ''; // limpa output para mostrar só gráfico e tabela
-        renderOrdersChart(data);
-        renderOrdersTable(data.orders || []);
-        chartCanvas.style.display = 'block';
-      } else if (type === 'stock') {
-        output.textContent = ''; // limpa texto bruto
-        renderStockSummary(data.result);
-        renderStockChart(data.result);
-        document.getElementById('dashboard-table-container').classList.remove('hidden');
-        chartCanvas.style.display = 'block';
-      } else {
-        output.textContent = JSON.stringify(data, null, 2);
-        chartCanvas.style.display = 'none';
-        document.getElementById('dashboard-table-container').classList.add('hidden');
-      }
-    } catch (err) {
-      output.textContent = 'Erro ao carregar relatório.';
-      console.error(err);
-      chartCanvas.style.display = 'none';
-      document.getElementById('dashboard-table-container').classList.add('hidden');
-    } finally {
-      loadBtn.disabled = false;
-      loadBtn.textContent = 'Carregar';
-    }
-  }
-
-  function renderOrdersChart(data) {
-    const ctx = document.getElementById('dashboard-chart').getContext('2d');
-
-    const labels = ['Total', 'Finalizados', 'Pendentes'];
-    const values = [data.total_orders, data.orders_finished, data.orders_unfinished];
-
-    if (window.myChart) {
-      window.myChart.destroy();
-    }
-
-    window.myChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels,
-        datasets: [{
-          label: 'Pedidos',
-          data: values,
-          backgroundColor: ['#6366F1', '#10B981', '#F59E0B'],
-        }]
-      },
-      options: {
-        responsive: true,
-        scales: { y: { beginAtZero: true } }
-      }
-    });
-  }
-
-  function renderOrdersTable(orders) {
-    const tbody = document.getElementById('dashboard-table-body');
-    tbody.innerHTML = '';
-
-    if (!orders.length) {
-      document.getElementById('dashboard-table-container').classList.add('hidden');
-      return;
-    }
-
-    orders.forEach(order => {
-      const tr = document.createElement('tr');
-      tr.classList.add('hover:bg-gray-50');
-      tr.innerHTML = `
-        <td class="px-4 py-2 whitespace-nowrap">${order.id}</td>
-        <td class="px-4 py-2 whitespace-nowrap">${order.date}</td>
-        <td class="px-4 py-2 whitespace-nowrap">${order.is_finished ? 'Finalizado' : 'Pendente'}</td>
-        <td class="px-4 py-2 whitespace-nowrap">R$ ${Number(order.total_price || 0).toFixed(2)}</td>
-      `;
-      tbody.appendChild(tr);
-    });
-
-    document.getElementById('dashboard-table-container').classList.remove('hidden');
-  }
-
-  function renderStockSummary(result) {
-    const output = document.getElementById('dashboard-output');
-
-    // Texto resumo do total
-    output.innerHTML = `
-      <p class="text-lg font-semibold mb-4">Resumo do Estoque</p>
-      <p><strong>Total de itens no estoque:</strong> ${result.total_stock_items}</p>
-    `;
-
-    // Monta tabela com estoque por produto
-    let html = `<table class="min-w-full divide-y divide-gray-200 table-auto mt-6">
-      <thead class="bg-gray-50">
-        <tr>
-          <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Produto</th>
-          <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantidade</th>
-        </tr>
-      </thead>
-      <tbody>`;
-
-    for (const [product, quantity] of Object.entries(result.stock_per_product)) {
-      html += `
-        <tr class="hover:bg-gray-50">
-          <td class="px-4 py-2 whitespace-nowrap">${product}</td>
-          <td class="px-4 py-2 whitespace-nowrap">${quantity}</td>
-        </tr>`;
-    }
-
-    html += '</tbody></table>';
-
-    output.innerHTML += html;
-  }
-
-  function renderStockChart(result) {
-    const ctx = document.getElementById('dashboard-chart').getContext('2d');
-
-    const labels = Object.keys(result.stock_per_product);
-    const quantities = Object.values(result.stock_per_product);
-
-    if (window.myChart) {
-      window.myChart.destroy();
-    }
-
-    window.myChart = new Chart(ctx, {
-      type: 'bar', // Pode mudar para 'pie' se preferir gráfico de pizza
-      data: {
-        labels: labels,
-        datasets: [{
-          label: 'Quantidade em estoque',
-          data: quantities,
-          backgroundColor: labels.map(() => 'rgba(99, 102, 241, 0.7)'),
-          borderColor: labels.map(() => 'rgba(99, 102, 241, 1)'),
-          borderWidth: 1,
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { display: false },
-          tooltip: { enabled: true }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            title: { display: true, text: 'Quantidade' }
-          },
-          x: {
-            title: { display: true, text: 'Produto' }
-          }
-        }
-      }
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', toggleFilters);
-</script>
-
-

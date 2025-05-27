@@ -24,6 +24,6 @@ class DashboardController < ApplicationController
   private
 
   def report_params
-    params.permit(:start_date, :end_date, :is_finished, :min_total, :max_total)
+    params.permit(:type, :start_date, :end_date, :is_finished, :min_total, :max_total)
   end
 end
