@@ -11,20 +11,7 @@ export default class extends Controller {
   connect() {
     this.toggleFilters()
 
-    console.log("[Stimulus] Dashboard controller conectado.")
-
-    this.subscription = consumer.subscriptions.create("DashboardChannel", {
-      connected: () => {
-        console.log("[Cable] Conectado ao DashboardChannel")
-      },
-      disconnected: () => {
-        console.log("[Cable] Desconectado do DashboardChannel")
-      },
-      received: (data) => {
-        console.log("[Cable] Dados recebidos:", data)
-        // Aqui você pode manipular o DOM com this.element, etc.
-      }
-    })
+    console.log("[Stimulus] Dashboard controller conectado.")    
   }
 
   disconnect() {
@@ -48,7 +35,14 @@ export default class extends Controller {
     }
   }
 
+  unsubscribe() {
+    if (this.subscription) {
+      consumer.subscriptions.remove(this.subscription)
+    }
+  }
+
   async loadDashboard() {
+    this.unsubscribe()
     this.loadBtnTarget.disabled = true
     this.loadBtnTarget.textContent = "Carregando..."
 
@@ -68,6 +62,7 @@ export default class extends Controller {
     this.chartTarget.style.display = "none"
 
     try {
+      // Primeiro carrega os dados iniciais
       const res = await fetch(`/dashboard?${params.toString()}`, {
         headers: { Accept: "application/json" }
       })
@@ -76,6 +71,44 @@ export default class extends Controller {
       const data = await res.json()
       const result = data.result || data
 
+      // Cria a conexão WebSocket
+      this.subscription = consumer.subscriptions.create(
+        { 
+          channel: "DashboardChannel", 
+          type: type,
+          // Inclui os parâmetros de filtro na conexão
+          ...(type === "orders" ? {
+            start_date: this.startDateTarget.value,
+            end_date: this.endDateTarget.value,
+            is_finished: this.isFinishedTarget.value,
+            min_total: this.minTotalTarget.value,
+            max_total: this.maxTotalTarget.value
+          } : {})
+        },
+        {
+          connected: () => {
+            console.log(`[Cable] Conectado ao canal ${type}`)
+          },
+          disconnected: () => {
+            console.log(`[Cable] Desconectado do canal ${type}`)
+          },
+          received: (data_broadcast) => {
+            console.log(`[Cable] Dados recebidos no canal ${type}:`, data_broadcast)
+            if (type === "orders") {
+              if (data_broadcast.summary) this.renderOrdersSummary(data_broadcast.summary)
+              if (data_broadcast.orders) this.renderOrdersTable(data_broadcast.orders)
+              if (data_broadcast.chart_data) this.renderOrdersChart(data_broadcast.chart_data)
+            } else if (type === "stock") {
+              console.log("Dados recebidos no canal stock:", data_broadcast.total_stock_items)
+              console.log("Dados recebidos no canal stock:", data_broadcast.stock_per_product)
+              this.renderStockSummary(data_broadcast)
+              this.renderStockChart(data_broadcast)
+            }
+          }
+        }
+      )
+
+      // Renderiza os dados iniciais
       if (type === "orders") {
         this.renderOrdersSummary(result.summary)
         this.renderOrdersTable(result.orders)
