@@ -6,6 +6,9 @@ class Order < ApplicationRecord
 	validates :total_price, numericality: { greater_than_or_equal_to: 0 }
 
 	after_update :broadcast_stock_update
+	after_update :broadcast_orders_update
+	after_destroy :broadcast_orders_update
+	after_create :broadcast_orders_update
 
 	private
 
@@ -13,5 +16,9 @@ class Order < ApplicationRecord
 		payload = Dashboards::Stock.new.call.result
 
 		ActionCable.server.broadcast("dashboard_channel_stock", payload)
+	end
+
+	def broadcast_orders_update
+		ActionCable.server.broadcast("dashboard_channel_orders", { refresh: true })
 	end
 end

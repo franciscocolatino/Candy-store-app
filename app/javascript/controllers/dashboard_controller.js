@@ -62,7 +62,6 @@ export default class extends Controller {
     this.chartTarget.style.display = "none"
 
     try {
-      // Primeiro carrega os dados iniciais
       const res = await fetch(`/dashboard?${params.toString()}`, {
         headers: { Accept: "application/json" }
       })
@@ -71,13 +70,10 @@ export default class extends Controller {
       const data = await res.json()
       const result = data.result || data
 
-      // Cria a conexão WebSocket
       this.subscription = consumer.subscriptions.create(
         { 
           channel: "DashboardChannel", 
-          type: type,
-          // Inclui os parâmetros de filtro na conexão
-          ...(type === "orders" ? {
+          type: type, ...(type === "orders" ? {
             start_date: this.startDateTarget.value,
             end_date: this.endDateTarget.value,
             is_finished: this.isFinishedTarget.value,
@@ -95,12 +91,11 @@ export default class extends Controller {
           received: (data_broadcast) => {
             console.log(`[Cable] Dados recebidos no canal ${type}:`, data_broadcast)
             if (type === "orders") {
+              if (data_broadcast.refresh) this.transmitOrdersWithFilters()
               if (data_broadcast.summary) this.renderOrdersSummary(data_broadcast.summary)
               if (data_broadcast.orders) this.renderOrdersTable(data_broadcast.orders)
               if (data_broadcast.chart_data) this.renderOrdersChart(data_broadcast.chart_data)
             } else if (type === "stock") {
-              console.log("Dados recebidos no canal stock:", data_broadcast.total_stock_items)
-              console.log("Dados recebidos no canal stock:", data_broadcast.stock_per_product)
               this.renderStockSummary(data_broadcast)
               this.renderStockChart(data_broadcast)
             }
@@ -108,7 +103,6 @@ export default class extends Controller {
         }
       )
 
-      // Renderiza os dados iniciais
       if (type === "orders") {
         this.renderOrdersSummary(result.summary)
         this.renderOrdersTable(result.orders)
@@ -126,6 +120,17 @@ export default class extends Controller {
       this.loadBtnTarget.disabled = false
       this.loadBtnTarget.textContent = "Carregar"
     }
+  }
+
+  transmitOrdersWithFilters() {
+    this.subscription.perform("transmit_orders_with_filters", {
+      start_date: this.startDateTarget.value,
+      end_date: this.endDateTarget.value,
+      is_finished: this.isFinishedTarget.value,
+      min_total: this.minTotalTarget.value,
+      max_total: this.maxTotalTarget.value
+    })
+    return 
   }
 
   renderOrdersSummary(summary) {
