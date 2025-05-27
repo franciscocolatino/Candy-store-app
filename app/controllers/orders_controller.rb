@@ -5,8 +5,8 @@ class OrdersController < ApplicationController
     @orders = Order.includes(:table, :order_lots => {:lot => :product})
                   .order(created_at: :desc)
     
-    @orders = @orders.where(is_finished: params[:status] == 'finished') if params[:status] == 'finished'  
-    @orders = @orders.where(is_finished: params[:status] == 'pending') if params[:status] == 'pending'  
+    @orders = @orders.where(is_finished: true) if params[:status] == 'finished'  
+    @orders = @orders.where(is_finished: false) if params[:status] == 'pending'  
 
     @orders = @orders.where(table_id: params[:table_id]) if params[:table_id].present?
     @orders = @orders.where(created_at: params[:start_date]..params[:end_date]) if params[:start_date].present? && params[:end_date].present?
