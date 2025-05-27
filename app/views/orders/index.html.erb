@@ -12,7 +12,7 @@
           <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
           <select name="status" class="w-full border border-gray-300 rounded-md p-2">
             <option value="">Todos</option>
-            <option value="pending" <%= 'selected' if params[:status] == 'pending' %>>Pendentes</option>
+            <option value="pending" <%= 'selected' if params[:status] == 'pending' %>>Em Andamento</option>
             <option value="finished" <%= 'selected' if params[:status] == 'finished' %>>Finalizados</option>
           </select>
         </div>
@@ -63,7 +63,7 @@
                       Pedido #<%= order.id %> - Mesa <%= order.table.number %>
                     </p>
                     <span class="ml-2 px-2.5 py-0.5 rounded-full text-xs font-medium <%= order.is_finished ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' %>">
-                      <%= order.is_finished ? 'Finalizado' : 'Em andamento' %>
+                      <%= order.is_finished ? 'Finalizado' : 'Em Andamento' %>
                     </span>
                   </div>
                   <div class="ml-2 flex-shrink-0 flex">
