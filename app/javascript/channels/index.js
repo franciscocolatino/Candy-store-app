@@ -1,3 +1,3 @@
 // Import all the channels to be used by Action Cable
-import "./dashboard_channel"
+//import "./dashboard_channel"
 //import '../controllers/dashboard_controller'
