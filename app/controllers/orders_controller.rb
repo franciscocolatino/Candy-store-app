@@ -30,7 +30,7 @@ class OrdersController < ApplicationController
     end
 
     def close_order
-      if @order.order_lots.all? { |lot| lot.is_delivered == true }
+      if @order.order_lots.all? { |lot| lot.is_delivered == true } and @order.order_lots.any?
         @order.update(is_finished: true)
         @order.update(total_price: @order.order_lots.sum { |ol| ol.quantity * ol.lot.product.price })
         redirect_to order_path(@order), notice: 'Pedido fechado com sucesso!'
