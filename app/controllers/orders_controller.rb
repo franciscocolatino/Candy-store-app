@@ -1,5 +1,6 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: [:show, :close_order, :destroy]
+  before_action :is_admin?, only: %i[index]
 
   def index
     @orders = Order.includes(:table, :order_lots => {:lot => :product})
@@ -45,6 +46,15 @@ class OrdersController < ApplicationController
     end
 
     private
+
+    def is_admin?
+        unless @current_user&.is_admin
+            respond_to do |format|
+                format.html { redirect_to root_path, notice: "Apenas administradores podem fazer isso" }
+                format.json { render json: { error: "Apenas administradores podem fazer isso" }, status: :forbidden }
+            end
+        end
+    end
 
     def set_order
       @order = Order.find(params[:id])
