@@ -26,7 +26,7 @@ export default class extends Controller {
   }
 
   clearDashboard() {
-    this.outputTarget.textContent = "Selecione um tipo de dashboard..."
+    this.outputTarget.textContent = "Selecione um tipo de dashboard e clique em carregar para mostrar o dashboard desejado"
     this.tableContainerTarget.classList.add("hidden")
     this.chartTarget.style.display = "none"
     if (window.myChart) {
@@ -218,12 +218,12 @@ export default class extends Controller {
 
   renderStockSummary(data) {
     this.outputTarget.innerHTML = `
-      <p class="text-lg font-semibold mb-4">Resumo do Estoque</p>
-      <p><strong>Total de itens no estoque:</strong> ${data.total_stock_items}</p>
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Resumo do Estoque</h2>
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Total de itens no estoque:<span class="font-normal"> ${data.total_stock_items} itens</span></h3>
     `
 
     let html = `<table class="min-w-full divide-y divide-gray-200 table-auto mt-6">
-      <thead><tr><th class="px-4 py-2">Produto</th><th class="px-4 py-2">Quantidade</th></tr></thead><tbody>`
+      <thead><tr><th class="text-lg font-semibold text-gray-800">Produto</th><th class="text-lg font-semibold text-gray-800">Quantidade</th></tr></thead><tbody>`
 
     for (const [product, quantity] of Object.entries(data.stock_per_product)) {
       html += `<tr><td class="px-4 py-2">${product}</td><td class="px-4 py-2">${quantity}</td></tr>`

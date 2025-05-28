@@ -1,74 +1,101 @@
-<div data-controller="dashboard" class="max-w-6xl mx-auto p-6">
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+<div class="max-w-5xl mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-4xl font-bold text-gray-900">Lista de Produtos</h1>  
+  </div>
+  <div data-controller="dashboard" class="max-w-6xl mx-auto p-6">
     <div>
-      <label for="dashboard-type" class="block text-sm font-medium text-gray-700">Tipo de dashboard</label>
-      <select id="dashboard-type" data-dashboard-target="type" data-action="change->dashboard#toggleFilters" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-        <option value="">Selecione</option>
-        <option value="orders">Pedidos</option>
-        <option value="stock">Estoque</option>
-      </select>
-    </div>
-
-    <div id="order-filters" data-dashboard-target="orderFilters" class="md:col-span-3 grid grid-cols-1 md:grid-cols-5 gap-4 hidden">
       <div>
-        <label for="start-date" class="block text-sm font-medium text-gray-700">Data início</label>
-        <input type="date" id="start-date" data-dashboard-target="startDate" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
-      </div>
-      <div>
-        <label for="end-date" class="block text-sm font-medium text-gray-700">Data fim</label>
-        <input type="date" id="end-date" data-dashboard-target="endDate" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
-      </div>
-      <div>
-        <label for="is-finished" class="block text-sm font-medium text-gray-700">Status</label>
-        <select id="is-finished" data-dashboard-target="isFinished" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-          <option value="">Todos</option>
-          <option value="true">Finalizado</option>
-          <option value="false">Pendente</option>
+        <label for="dashboard-type" class="block text-gray-700 font-medium mb-1">Tipo de dashboard</label>
+        <select id="dashboard-type" data-dashboard-target="type" data-action="change->dashboard#toggleFilters" 
+          class="block w-full px-4 py-3 rounded-xl border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-base transition mb-4",
+          autofocus= true 
+          required= true>
+          <option value="">Selecione</option>
+          <option value="orders">Pedidos</option>
+          <option value="stock">Estoque</option>
         </select>
       </div>
-      <div>
-        <label for="min-total" class="block text-sm font-medium text-gray-700">Valor mín</label>
-        <input type="number" step="0.01" id="min-total" data-dashboard-target="minTotal" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+
+      <div id="order-filters" data-dashboard-target="orderFilters" class="md:col-span-3 grid grid-cols-1 md:grid-cols-5 gap-4 hidden">
+        <div>
+          <label for="start-date" class="block text-gray-700 font-medium mb-1">Data início</label>
+          <input type="date" id="start-date" data-dashboard-target="startDate" 
+          class="block w-full px-4 py-3 rounded-xl border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-base transition mb-4",
+          autofocus= true 
+          required= true 
+          placeholder= "Digite o nome do produto">
+        </div>
+        <div>
+          <label for="end-date" class="block text-gray-700 font-medium mb-1">Data fim</label>
+          <input type="date" id="end-date" data-dashboard-target="endDate" 
+            class="block w-full px-4 py-3 rounded-xl border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-base transition mb-4",
+            autofocus= true 
+            required= true 
+            placeholder= "Digite o nome do produto">        
+        </div>
+        <div>
+          <label for="is-finished" class="block text-gray-700 font-medium mb-1">Status</label>
+          <select id="is-finished" data-dashboard-target="isFinished"             
+            autofocus= true 
+            required= true 
+            class="block w-full px-4 py-3 rounded-xl border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-base transition mb-4">
+            <option value="">Todos</option>
+            <option value="true">Finalizado</option>
+            <option value="false">Pendente</option>
+          </select>
+        </div>
+        <div>
+          <label for="min-total" class="block text-gray-700 font-medium mb-1">Valor mín</label>
+          <input type="number" step="0.01" id="min-total" data-dashboard-target="minTotal" 
+            class="block w-full px-4 py-3 rounded-xl border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-base transition mb-4",
+            autofocus= true 
+            required= true 
+            placeholder= "Digite o valor mínimo">
+        </div>
+        <div>
+          <label for="max-total" class="block text-gray-700 font-medium mb-1">Valor máx</label>
+          <input type="number" step="0.01" id="max-total" data-dashboard-target="maxTotal" 
+          class="block w-full px-4 py-3 rounded-xl border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-base transition mb-4",
+          autofocus= true 
+          required= true 
+          placeholder= "Digite o valor máximo">
+        </div>
       </div>
-      <div>
-        <label for="max-total" class="block text-sm font-medium text-gray-700">Valor máx</label>
-        <input type="number" step="0.01" id="max-total" data-dashboard-target="maxTotal" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+    </div>
+
+    <div class="mt-6 text-right">
+      <button
+        id="load-btn"
+        data-dashboard-target="loadBtn"
+        data-action="click->dashboard#loadDashboard"
+        class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-white hover:bg-indigo-700"
+      >
+        Carregar
+      </button>
+    </div>
+
+    <div class="mt-8 space-y-6">
+      <div id="dashboard-output" data-dashboard-target="output" class="prose max-w-none">
+          <p class="text-gray-500">Selecione um tipo de dashboard e clique em carregar para mostrar o dashboard desejado</p>
+      </div>
+
+      <canvas id="dashboard-chart" data-dashboard-target="chart" class="w-full h-64" style="display: none;"></canvas>
+
+      <div id="dashboard-table-container" data-dashboard-target="tableContainer" class="overflow-x-auto hidden">
+        <table class="min-w-full divide-y divide-gray-200 table-auto border mt-4">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+              <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Data</th>
+              <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+              <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Valor</th>
+            </tr>
+          </thead>
+          <tbody id="dashboard-table-body" data-dashboard-target="tableBody" class="bg-white divide-y divide-gray-200">
+            <!-- Dados dinâmicos aqui -->
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
-
-  <div class="mt-6 text-right">
-    <button
-      id="load-btn"
-      data-dashboard-target="loadBtn"
-      data-action="click->dashboard#loadDashboard"
-      class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-white hover:bg-indigo-700"
-    >
-      Carregar
-    </button>
   </div>
-
-  <div class="mt-8 space-y-6">
-    <div id="dashboard-output" data-dashboard-target="output" class="prose max-w-none">
-      <p class="text-gray-500">Selecione um tipo de dashboard...</p>
-    </div>
-
-    <canvas id="dashboard-chart" data-dashboard-target="chart" class="w-full h-64" style="display: none;"></canvas>
-
-    <div id="dashboard-table-container" data-dashboard-target="tableContainer" class="overflow-x-auto hidden">
-      <table class="min-w-full divide-y divide-gray-200 table-auto border mt-4">
-        <thead class="bg-gray-50">
-          <tr>
-            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
-            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Data</th>
-            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Valor</th>
-          </tr>
-        </thead>
-        <tbody id="dashboard-table-body" data-dashboard-target="tableBody" class="bg-white divide-y divide-gray-200">
-          <!-- Dados dinâmicos aqui -->
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>

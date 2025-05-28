@@ -58,3 +58,7 @@ docker-compose exec app rails db:migrate
   docker-compose logs -f app
   ```
 
+- Para recriar, migrar e popular o banco de dados com dados iniciais
+  ```sh
+  rails db:drop db:create db:migrate db:seed
+  ```
