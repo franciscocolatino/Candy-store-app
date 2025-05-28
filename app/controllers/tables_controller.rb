@@ -86,8 +86,8 @@ class TablesController < ApplicationController
 
     def destroy
         if @current_user&.is_admin
-            if @table.orders.exists? 
-                 redirect_to @table, alert: 'Não é possível excluir uma mesa que foi utilizada uma vez.'
+            if @table.orders.exists?
+                 redirect_to @table, alert: "Não é possível excluir uma mesa que foi utilizada uma vez."
             else
                 @table.destroy
                 redirect_to tables_path, notice: "Mesa removida com sucesso."
