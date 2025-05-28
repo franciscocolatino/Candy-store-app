@@ -6,7 +6,7 @@ class CreateOrderLots < ActiveRecord::Migration[8.0]
       t.float :subtotal, null: false, default: 0.0
       t.references :order, null: false, foreign_key: true
       t.references :lot, null: false, foreign_key: true
-      
+
       t.timestamps
     end
 

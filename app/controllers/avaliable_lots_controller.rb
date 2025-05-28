@@ -1,5 +1,4 @@
 class AvaliableLotsController < ApplicationController
-
     def index
         @order = Order.find(params[:order_id])
         @lots= Lot.includes(:product).where("quantity>0")

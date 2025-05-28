@@ -1,4 +1,4 @@
-class Dashboards::Stock  
+class Dashboards::Stock
   prepend SimpleCommand
 
   def call

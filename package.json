@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2",
+    "@rails/actioncable": "^8.0.200",
     "chart.js": "^4.4.9"
   }
 }

@@ -25,31 +25,31 @@ class OrdersLotsController < ApplicationController
       end
     end
 
-    redirect_to @order, notice: 'itens adicionados com sucesso!'
+    redirect_to @order, notice: "itens adicionados com sucesso!"
   rescue ActiveRecord::RecordInvalid => e
-    redirect_to order_avaliable_lots_path(@order), alert: 'Erro ao adicionar itens'
+    redirect_to order_avaliable_lots_path(@order), alert: "Erro ao adicionar itens"
   end
 
 
   def destroy
     @order = Order.find(params[:order_id])
 
-    order_id, lot_id = params[:id].split('_')
-  
+    order_id, lot_id = params[:id].split("_")
+
     # Encontra o registro usando a chave composta
     @order_lot = OrderLot.find_by!(order_id: order_id, lot_id: lot_id)
 
     @order_lot.destroy
     @order.update(total_price: @order.order_lots.includes(lot: :product).sum { |ol| ol.quantity * ol.lot.product.price })
 
-    redirect_to @order, notice: 'Item removido com sucesso.'
+    redirect_to @order, notice: "Item removido com sucesso."
   end
 
   def order_lot_delivered
     @order = Order.find(params[:order_id])
 
-    order_id, lot_id = params[:id].split('_')
-  
+    order_id, lot_id = params[:id].split("_")
+
     # Encontra o registro usando a chave composta
     order_lot = OrderLot.find_by!(order_id: order_id, lot_id: lot_id)
     unless order_lot

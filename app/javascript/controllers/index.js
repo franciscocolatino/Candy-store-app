@@ -18,3 +18,4 @@ application.register("users-update-password-modal", Users__UpdatePasswordModalCo
 
 import DashboardController from "./dashboard_controller"
 application.register("dashboard", DashboardController)
+
