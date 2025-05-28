@@ -1,33 +1,55 @@
-<%= form_with(model: [@product, lot], local: true) do |form| %>
-  <% if lot.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(lot.errors.count, "erro") %> impediu que este lote fosse salvo:</h2>
-      <ul>
-        <% lot.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+<div class="max-w-2xl mx-auto py-10 px-4">
+  <div class="bg-white shadow-xl rounded-2xl overflow-hidden">
+    <div class="px-6 py-5 border-b border-gray-200 flex justify-between items-center">
+      <h1 class="text-2xl font-semibold text-gray-800 flex items-center"> <%= title %> <%= @product.name %></h1>
+      <%= link_to "Voltar", product_lots_path(@product), 
+        class: 'text-sm px-4 py-2 border border-gray-400 text-gray-700 rounded hover:bg-gray-700 hover:border-gray-700 hover:text-white transition', 
+        title: 'Voltar para a lista de produtos'
+      %>
     </div>
-  <% end %>
 
+  <div class="px-6 py-8">
+    <%= form_with(model: [@product, lot], local: true) do |form| %>
+      <% if lot.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(lot.errors.count, "erro") %> impediu que este lote fosse salvo:</h2>
+          <ul>
+            <% lot.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-  <div class="field">
-    <%= form.label :quantity, 'Quantidade' %>
-    <%= form.number_field :quantity, class: 'form-control' %>
+  <div class="mb-6">
+    <%= form.label :quantity, 'Quantidade', class: 'block text-gray-700 font-medium mb-1'  %>
+    <%= form.number_field :quantity, step: 1, min: 0,
+      class: "block w-full px-4 py-3 rounded-xl border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-base transition",
+      autofocus: true,
+      required: true,
+      placeholder: "Digite a quantidade de produtos desse novo lote" %>
   </div>
 
-  <div class="field">
-    <%= form.label :manufacturing_date, 'Data de Fabricação' %>
-    <%= form.date_field :manufacturing_date, class: 'form-control' %>
+  <div class="mb-6">
+    <%= form.label :manufacturing_date, 'Data de Fabricação',  class: 'block text-gray-700 font-medium mb-1'  %>
+    <%= form.date_field :manufacturing_date, 
+      class: "block w-full px-4 py-3 rounded-xl border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-base transition",
+      autofocus: true,
+      required: true 
+      %>
   </div>
 
-  <div class="field">
-    <%= form.label :expiration_date, 'Data de Validade' %>
-    <%= form.date_field :expiration_date, class: 'form-control' %>
+  <div class="mb-6">
+    <%= form.label :expiration_date, 'Data de Validade', class: 'block text-gray-700 font-medium mb-1' %>
+    <%= form.date_field :expiration_date, 
+      class: "block w-full px-4 py-3 rounded-xl border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-base transition",
+      autofocus: true,
+      required: true
+      %>
   </div>
 
-  <div class="actions mt-3">
-    <%= form.submit 'Salvar', class: 'btn btn-primary' %>
-    <%= link_to 'Cancelar', product_lots_path(@product), class: 'btn btn-secondary' %>
+  <div class="flex justify-end space-x-2">
+    <%= link_to 'Cancelar', product_lots_path(@product), class: 'px-4 py-2 border border-gray-300 rounded text-gray-600 hover:bg-gray-100 transition' %>
+    <%= form.submit 'Salvar', class: 'px-6 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition font-semibold flex items-center' %>
   </div>
 <% end %>

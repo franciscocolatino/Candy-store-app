@@ -1,25 +1,40 @@
-<div class="max-w-2xl mx-auto px-4 py-8">
+<div class="max-w-3xl mx-auto px-4 py-8">
+  
   <% if notice %>
-    <div class="alert alert-success" role="alert">
-      <%= notice %>
+    <div class="mb-6 rounded-md bg-green-100 p-4 border border-green-300">
+      <p class="text-sm text-green-800 font-medium"><%= notice %></p>
     </div>
   <% end %>
 
-  <div class="max-w-md mx-auto">
-    <h1 class="text-3xl font-bold mb-4"><%= @user.name %></h1>
+  <div class="bg-white rounded-xl shadow-md p-6">
+    <h1 class="text-3xl font-bold text-gray-900 mb-4">
+      <%= @user.name %>
+    </h1>
 
-    <p class="text-lg text-gray-700 mb-4"><strong>CPF:</strong> <%= @user.cpf %></p>
+    <div class="mb-6">
+      <p class="text-lg text-gray-700">
+        <span class="font-semibold">CPF:</span> <%= @user.cpf %>
+      </p>
+    </div>
 
-    <div class="flex gap-4">
-      <%= link_to "Editar", edit_user_path(@user), class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
-      <%= link_to "Voltar", users_path, class: "inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
-      <%= button_to "Destruir esse usuário", @user, method: :delete, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500", data: { confirm: "Are you sure?" } %>
+    <div class="mb-6">
+      <p class="text-lg text-gray-700">
+        <span class="font-semibold">Função:</span>
+          <%= @user.is_admin? ? 'Administrador' : 'Vendedor' %>
+      </p>
     </div>
-  </div>
-  
-  <div class="card mb-3">
-    <div class="card-body">
-      <%= render @user %>
-    </div>
+
+
+    <div class="flex flex-wrap gap-4">
+      <%= link_to "Editar", edit_user_path(@user),
+          class: "inline-flex items-center px-5 py-2.5 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+
+      <%= link_to "Voltar", users_path,
+          class: "inline-flex items-center px-5 py-2.5 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+
+<%= button_to (@current_user == @user ? "Excluir Conta" : "Excluir Usuário"), 
+      @user, 
+      method: :delete,
+      class: "inline-flex items-center px-5 py-2.5 rounded-lg bg-red-600 text-white hover:bg-red-700 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" %>
   </div>
 </div>

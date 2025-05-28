@@ -1,7 +1,7 @@
 class LotsController < ApplicationController
   before_action :set_product
   before_action :set_lot, only: [ :show, :edit, :update, :destroy ]
-  before_action :is_admin?, only: %i[create update destroy]
+  before_action :is_admin?, only: %i[index create show edit update destroy]
 
   def index
     @lots = @product.lots.order(created_at: :desc)
@@ -50,7 +50,7 @@ class LotsController < ApplicationController
       end
     end
   end
-  
+
   def set_product
     @product = Product.find(params[:product_id])
   end
