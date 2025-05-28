@@ -49,9 +49,9 @@ class UsersController < ApplicationController
     respond_to do |format|
       notice = if @user == @current_user && @user.cpf != user_update_params[:cpf]
                 "Seu usuário foi atualizado com sucesso. Faça login novamente com o novo cpf."
-               else
+      else
                 "Usuário atualizado com sucesso."
-               end
+      end
       if @user.update(user_update_params)
         format.html { redirect_to edit_user_path(@user), notice: notice }
         format.json { render :show, status: :ok, location: @user }

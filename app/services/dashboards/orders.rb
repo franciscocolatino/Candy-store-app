@@ -1,5 +1,5 @@
 class Dashboards::Orders
-  prepend SimpleCommand  
+  prepend SimpleCommand
   def initialize(params = {})
     @params = params
   end
@@ -25,8 +25,8 @@ class Dashboards::Orders
 
     date_range = 30.days.ago.to_date..Date.current
     orders_by_date = orders.where(date: date_range)
-      .group('date')
-      .order('date')
+      .group("date")
+      .order("date")
       .count
 
     chart_data = date_range.each_with_object({}) { |date, hash| hash[date] = 0 }
@@ -38,18 +38,18 @@ class Dashboards::Orders
         total_revenue: orders.sum(:total_price),
         average_order_value: orders.average(:total_price).to_f.round(2),
         orders_finished: orders.where(is_finished: true).count,
-        orders_unfinished: orders.where(is_finished: false).count,
+        orders_unfinished: orders.where(is_finished: false).count
       },
       chart_data: {
-        labels: chart_data.keys.map { |date| date.strftime('%d/%m') },
+        labels: chart_data.keys.map { |date| date.strftime("%d/%m") },
         values: chart_data.values
       },
       orders: orders.limit(50).map do |order|
         {
           id: order.id,
-          date: order.date.strftime('%d/%m/%Y'),
-          status: order.is_finished ? 'Finalizado' : 'Pendente',
-          total: "R$ #{'%.2f' % order.total_price}".gsub('.', ',')
+          date: order.date.strftime("%d/%m/%Y"),
+          status: order.is_finished ? "Finalizado" : "Pendente",
+          total: "R$ #{'%.2f' % order.total_price}".gsub(".", ",")
         }
       end
     }
