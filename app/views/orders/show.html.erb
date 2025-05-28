@@ -1,3 +1,5 @@
+<%= render 'shared/alert' %>
+
 <div class="max-w-4xl mx-auto px-4 py-8">
   <div class="bg-white rounded-xl shadow-lg overflow-hidden">
     <div class="<%= @order.is_finished ? 'bg-green-600' : 'bg-indigo-600' %> px-6 py-4">
@@ -87,8 +89,12 @@
           </div>
         <% else %>
           <% if @current_user.is_admin %>
+          <div class="flex justify-start gap-4">
             <%= link_to 'Voltar Pedidos', orders_path, 
                 class: 'px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50' %>
+            <%= link_to 'Voltar Mesas', tables_path, 
+                class: 'px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50' %>
+                  </div
           <% else %>        
             <%= link_to 'Voltar Mesas', tables_path, 
                 class: 'px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50' %>  
