@@ -18,7 +18,7 @@ class OrdersLotsController < ApplicationController
         lot= Lot.find(lot_id)
         new_quantity = lot.quantity - quantity
         if new_quantity < 0
-            raise ActiveRecord::Rollback, "Quantidade insuficiente no lote #{lot.id}"
+            raise StandardError.new("Quantidade insuficiente no lote #{lot.id}")
         end
         lot.update!(quantity: new_quantity)
         @order.update(total_price: @order.order_lots.includes(lot: :product).sum { |ol| ol.quantity * ol.lot.product.price })
@@ -26,8 +26,8 @@ class OrdersLotsController < ApplicationController
     end
 
     redirect_to @order, notice: "itens adicionados com sucesso!"
-  rescue ActiveRecord::RecordInvalid => e
-    redirect_to order_avaliable_lots_path(@order), alert: "Erro ao adicionar itens"
+  rescue StandardError => e
+    redirect_to avaliable_lots_path(order_id: @order.id), alert: "Erro ao adicionar itens: #{e.message}"
   end
 
 
