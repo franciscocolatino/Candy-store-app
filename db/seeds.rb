@@ -109,11 +109,12 @@ order1 = Order.create!(
   total_price: 0.0
 )
 
+lot_2 = lots.sample
 OrderLot.create!(
   order: order1,
-  lot: lots.sample,
+  lot: lot_2,
   quantity: 2,
-  subtotal: lots.sample.product.price * 2
+  subtotal: lot_2.product.price * 2
 )
 
 order1.update!(total_price: order1.order_lots.sum(:subtotal))
@@ -126,18 +127,20 @@ order2 = Order.create!(
   total_price: 0.0
 )
 
+lot_3 = lots.sample
 OrderLot.create!(
   order: order2,
-  lot: lots.sample,
+  lot: lot_3,
   quantity: 1,
-  subtotal: lots.sample.product.price * 1
+  subtotal: lot_3.product.price * 1
 )
 
+lot_4 = lots.sample
 OrderLot.create!(
   order: order2,
-  lot: lots.sample,
+  lot: lot_4,
   quantity: 3,
-  subtotal: lots.sample.product.price * 3
+  subtotal: lot_4.product.price * 3
 )
 
 order2.update!(total_price: order2.order_lots.sum(:subtotal))
@@ -151,11 +154,13 @@ order3 = Order.create!(
   date: Date.today - 1
 )
 
+lot_1 = lots.sample
+
 OrderLot.create!(
   order: order3,
-  lot: lots.sample,
+  lot: lot_1,
   quantity: 4,
-  subtotal: lots.sample.product.price * 4
+  subtotal: lot_1.product.price * 4
 )
 
 order3.update!(total_price: order3.order_lots.sum(:subtotal))

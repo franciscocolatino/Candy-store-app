@@ -1,5 +1,5 @@
 class TablesController < ApplicationController
-    before_action :set_table, only: [:show, :edit, :update, :destroy]  
+    before_action :set_table, only: [ :show, :edit, :update, :destroy ]
     before_action :is_admin?, only: %i[create new edit update destroy]
 
     def index
@@ -20,10 +20,10 @@ class TablesController < ApplicationController
         @order=@table.orders.find_by(is_finished: false)
 
         respond_to do |format|
-            format.html 
+            format.html
             format.json do
                 if @table
-                    render json:{ 
+                    render json: {
                         table: @table,
                         order: @order,
                         order_lots: @order&.order_lots&.includes(lot: :product)&.map do |ol|
@@ -39,7 +39,7 @@ class TablesController < ApplicationController
                 end
             end
         end
-    end 
+    end
 
     def new
         @table = Table.new
@@ -52,7 +52,7 @@ class TablesController < ApplicationController
             if @table.save
                 respond_to do |format|
                     format.json { render json: @table, status: :created }
-                    format.html { redirect_to tables_path, notice: 'Mesa criada com sucesso.' }
+                    format.html { redirect_to tables_path, notice: "Mesa criada com sucesso." }
                 end
             else
                 respond_to do |format|
@@ -73,7 +73,7 @@ class TablesController < ApplicationController
             if @table.update(table_params)
                 respond_to do |format|
                     format.json { render json: @talbe, status: :ok }
-                    format.html { redirect_to tables_path, notice: 'Mesa atualizada com sucesso.' }
+                    format.html { redirect_to tables_path, notice: "Mesa atualizada com sucesso." }
                 end
             else
                 respond_to do |format|
@@ -82,7 +82,7 @@ class TablesController < ApplicationController
                 end
             end
         end
-    end        
+    end
 
     def destroy
         if @current_user&.is_admin
@@ -90,14 +90,12 @@ class TablesController < ApplicationController
                  redirect_to @table, alert: 'Não é possível excluir uma mesa que foi utilizada uma vez.'
             else
                 @table.destroy
-                redirect_to tables_path,notice: 'Mesa removida com sucesso.'
+                redirect_to tables_path, notice: "Mesa removida com sucesso."
             end
         else
-            redirect_to @table, alert: 'Acesso não autorizado.'
+            redirect_to @table, alert: "Acesso não autorizado."
         end
-
     end
-    
 
     private
 

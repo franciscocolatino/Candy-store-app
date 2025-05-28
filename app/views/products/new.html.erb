@@ -1,6 +1,4 @@
-unless current_user.is_admin?
-  redirect_to '/403'
-end
+<%= render 'shared/alert' %>
 
 <div class="max-w-2xl mx-auto py-10 px-4">
   <div class="bg-white shadow-xl rounded-2xl overflow-hidden">

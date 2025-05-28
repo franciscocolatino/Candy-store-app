@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import consumer from "../channels/consumer"
 import Chart from "chart.js/auto"
 
 export default class extends Controller {
@@ -9,6 +10,14 @@ export default class extends Controller {
 
   connect() {
     this.toggleFilters()
+
+    console.log("[Stimulus] Dashboard controller conectado.")    
+  }
+
+  disconnect() {
+    if (this.subscription) {
+      consumer.subscriptions.remove(this.subscription)
+    }
   }
 
   toggleFilters() {
@@ -26,7 +35,14 @@ export default class extends Controller {
     }
   }
 
+  unsubscribe() {
+    if (this.subscription) {
+      consumer.subscriptions.remove(this.subscription)
+    }
+  }
+
   async loadDashboard() {
+    this.unsubscribe()
     this.loadBtnTarget.disabled = true
     this.loadBtnTarget.textContent = "Carregando..."
 
@@ -54,6 +70,39 @@ export default class extends Controller {
       const data = await res.json()
       const result = data.result || data
 
+      this.subscription = consumer.subscriptions.create(
+        { 
+          channel: "DashboardChannel", 
+          type: type, ...(type === "orders" ? {
+            start_date: this.startDateTarget.value,
+            end_date: this.endDateTarget.value,
+            is_finished: this.isFinishedTarget.value,
+            min_total: this.minTotalTarget.value,
+            max_total: this.maxTotalTarget.value
+          } : {})
+        },
+        {
+          connected: () => {
+            console.log(`[Cable] Conectado ao canal ${type}`)
+          },
+          disconnected: () => {
+            console.log(`[Cable] Desconectado do canal ${type}`)
+          },
+          received: (data_broadcast) => {
+            console.log(`[Cable] Dados recebidos no canal ${type}:`, data_broadcast)
+            if (type === "orders") {
+              if (data_broadcast.refresh) this.transmitOrdersWithFilters()
+              if (data_broadcast.summary) this.renderOrdersSummary(data_broadcast.summary)
+              if (data_broadcast.orders) this.renderOrdersTable(data_broadcast.orders)
+              if (data_broadcast.chart_data) this.renderOrdersChart(data_broadcast.chart_data)
+            } else if (type === "stock") {
+              this.renderStockSummary(data_broadcast)
+              this.renderStockChart(data_broadcast)
+            }
+          }
+        }
+      )
+
       if (type === "orders") {
         this.renderOrdersSummary(result.summary)
         this.renderOrdersTable(result.orders)
@@ -71,6 +120,17 @@ export default class extends Controller {
       this.loadBtnTarget.disabled = false
       this.loadBtnTarget.textContent = "Carregar"
     }
+  }
+
+  transmitOrdersWithFilters() {
+    this.subscription.perform("transmit_orders_with_filters", {
+      start_date: this.startDateTarget.value,
+      end_date: this.endDateTarget.value,
+      is_finished: this.isFinishedTarget.value,
+      min_total: this.minTotalTarget.value,
+      max_total: this.maxTotalTarget.value
+    })
+    return 
   }
 
   renderOrdersSummary(summary) {

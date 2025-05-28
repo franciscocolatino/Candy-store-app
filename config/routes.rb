@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   root "static#index"
 
   resources :users
-  resources :avaliable_lots, only: [:index]
+  resources :avaliable_lots, only: [ :index ]
   resources :tables
 
   resources :products do
@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   end
 
   resources :orders do
-    resources :orders_lots, only: [:new, :create, :destroy] do
+    resources :orders_lots, only: [ :new, :create, :destroy ] do
       member do
         post :order_lot_delivered
       end
@@ -33,19 +33,19 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'dashboard', to: 'dashboard#show'
-  
-  get 'forbidden', to: 'errors#forbidden'
-  get 'not_found', to: 'errors#not_found'
+  get "dashboard", to: "dashboard#show"
 
-  match '/404', to: 'errors#not_found', via: :all
-  match '/403', to: 'errors#forbidden', via: :all
-  match '/500', to: 'errors#internal_server_error', via: :all
+  get "forbidden", to: "errors#forbidden"
+  get "not_found", to: "errors#not_found"
+
+  match "/404", to: "errors#not_found", via: :all
+  match "/403", to: "errors#forbidden", via: :all
+  match "/500", to: "errors#internal_server_error", via: :all
 
 
-  get '/login', to: 'sessions#index'
-  post '/login', to: 'sessions#login'
-  get '/logout', to: 'sessions#logout'
-  
-  patch 'users/:id/update_password', to: 'users#update_password', as: :password_update
+  get "/login", to: "sessions#index"
+  post "/login", to: "sessions#login"
+  get "/logout", to: "sessions#logout"
+
+  patch "users/:id/update_password", to: "users#update_password", as: :password_update
 end

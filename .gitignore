@@ -38,6 +38,3 @@
 !/app/assets/builds/.keep
 
 /node_modules
-
-# Ignore schema
-/db/schema.rb
