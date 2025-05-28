@@ -8,7 +8,7 @@ RSpec.describe "Sessions", type: :request do
     it "renders the login page" do
       get login_path
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Login")
+      expect(response.body).to include("Acessar sua Conta")
     end
   end
 

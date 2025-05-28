@@ -18,7 +18,7 @@ RSpec.describe User, type: :model do
 
   context "CPF validation" do
     it "should be valid with a CPF of 11 digits" do
-      user = FactoryBot.build(:user, cpf: "12345678901")
+      user = FactoryBot.build(:user, cpf: "34567890123")
       expect(user).to be_valid
     end
 
