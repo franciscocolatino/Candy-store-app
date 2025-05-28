@@ -23,9 +23,6 @@ services:
       - "1020:3000"
     depends_on:
       - db
-    environment:
-      DATABASE_URL: postgres://postgres:password@db:5432/store_app_development
-      RAILS_ENV: development
     env_file: .env
 
 volumes:
