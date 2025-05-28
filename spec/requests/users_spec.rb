@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
-  let!(:user) { FactoryBot.create(:user, cpf: "12345678900", password: "123456", name: "Fulano") }
+  let!(:user) { FactoryBot.create(:user, cpf: "12345678900", password: "123456", name: "Fulano", is_admin: true) }
 
   before do
     cookies[:auth_token] = JsonWebToken.encode(cpf: user.cpf)
@@ -59,16 +59,16 @@ RSpec.describe "Users", type: :request do
     it "renders the edit form" do
       get edit_user_path(user)
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Editando usuário")
+      expect(response.body).to include("Editar Usuário")
     end
   end
 
   describe "PATCH /users/:id" do
     it "updates the user and redirects" do
       patch user_path(user), params: { user: { name: "Novo Nome" } }
-      expect(response).to redirect_to(user_path(user))
+      expect(response).to redirect_to(edit_user_path(user))
       follow_redirect!
-      expect(response.body).to include("Usuário atualizado com sucesso")
+      expect(flash[:notice]).to eq("Seu usuário foi atualizado com sucesso. Faça login novamente com o novo cpf.")
     end
   end
 
