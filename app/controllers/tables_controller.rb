@@ -95,9 +95,7 @@ class TablesController < ApplicationController
         else
             redirect_to @table, alert: 'Acesso não autorizado.'
         end
-
     end
-    
 
     private
 
