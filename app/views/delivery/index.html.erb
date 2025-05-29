@@ -15,6 +15,7 @@
       <% if @deliveries.any? %>
         <% @deliveries.each do |order| %>
           <li class="hover:bg-gray-50">
+            <% if order.is_finished==false %>
             <%= link_to order_path(order), class: 'block' do %>
               <div class="px-4 py-4 sm:px-6">
                 <div class="flex items-center justify-between">
@@ -46,6 +47,7 @@
                   </div>
                 </div>
               </div>
+              <% end %>
             <% end %>
           </li>
         <% end %>

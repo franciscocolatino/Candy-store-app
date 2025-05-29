@@ -27,7 +27,7 @@
         <h2 class="text-lg font-semibold text-gray-800">Itens do Pedido</h2>
         <% unless @order.is_finished %>
           <%= link_to "Adicionar Produto", avaliable_lots_path(order_id: @order.id),
-              class: 'text-sm px-4 py-2 border border-indigo-500 text-indigo-600 rounded hover:bg-indigo-50 transition' %>
+              class: 'inline-flex items-center px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-[#c2410c] hover:bg-[#9a3412] transition' %>
         <% end %>
       </div>
 

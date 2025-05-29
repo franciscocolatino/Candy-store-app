@@ -38,7 +38,7 @@
             <%= button_to "Novo Pedido",
                   orders_path(table_id: @table.id),
                   method: :post,
-                  class: 'inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold border border-indigo-500 text-indigo-600 rounded-xl hover:bg-indigo-600 hover:text-white transition transition' %> 
+                  class: 'inline-flex items-center px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-[#c2410c] hover:bg-[#9a3412] transition' %> 
           </div>
           <p class="text-sm text-gray-600 mb-2">
             Esta mesa ainda não possui um pedido ativo. Clique no botão "Novo Pedido" para iniciar um novo pedido.
@@ -47,7 +47,7 @@
             <div class="flex justify-between items-center mb-5">
               <h2 class="text-gray-700 text-xl font-medium mb-4">Pedido Atual</h2>
               <%= link_to "Ver Pedido", order_path(current_order),
-                class: 'inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold border border-indigo-500 text-indigo-600 rounded-xl hover:bg-indigo-600 hover:text-white transition transition' %> 
+                class: 'inline-flex items-center px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-[#c2410c] hover:bg-[#9a3412] transition' %> 
             </div>          
             <p class="text-sm text-gray-600 mb-2">
               <strong>Status:</strong> <span class="text-red-600">Em andamento</span><br>
