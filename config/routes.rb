@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   end
 
   get "dashboard", to: "dashboard#show"
+  get "delivery", to: "delivery#index"
 
   get "forbidden", to: "errors#forbidden"
   get "not_found", to: "errors#not_found"

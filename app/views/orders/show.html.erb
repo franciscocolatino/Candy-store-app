@@ -8,11 +8,17 @@
         <div class="bg-white <%= @order.is_finished ? 'text-green-600' : 'text-indigo-600' %> px-3 py-1 rounded-full text-sm font-semibold">
           <%= @order.is_finished ? 'Finalizado' : 'Em andamento' %>
         </div>
-      </div>
-      <div class="mt-2 text-indigo-100">
-        Mesa: <span class="font-medium"><%= @order.table.number %></span>
+            </div>
+            <div class="mt-2 text-indigo-100">
+        <span class="font-medium">
+        <% if @order.table.present? %>
+            Mesa: <%= @order.table.number %>
+          <% else %>
+            Balcão
+          <% end %>
+          </span>
         <span class="mx-2">•</span>
-        Data: <span class="font-medium"><%= l(@order.created_at, format: :long) %></span>
+        Data: <span class="font-medium"><%=l(@order.created_at, format: :long) %></span>
       </div>
     </div>
 
@@ -74,9 +80,20 @@
       </div>
 
       <div class="mt-8 pt-6 border-t border-gray-200 flex justify-between">
-        <% unless @order.is_finished %>  
-          <%= link_to 'Voltar para a Mesa', table_path(@order.table), 
-              class: 'px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50' %>
+        <% unless @order.is_finished %> 
+          <div class="flex justify-start gap-4">
+            <% if @current_user.is_admin %>
+              <%= link_to 'Voltar Pedidos', orders_path, 
+                  class: 'px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50' %>
+            <% end %> 
+            <% if @order.table.present? %>
+              <%= link_to 'Voltar para a Mesa', table_path(@order.table), 
+                class: 'px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50' %>
+            <% else %>
+              <%= link_to 'Voltar para o Balcão', delivery_path, 
+                class: 'px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50' %>
+            <% end %>
+          </div>
           <div class="text-right flex gap-6 items-center">
             <%= button_to 'Fechar Pedido', close_order_order_path(@order),
                 method: :post,
@@ -88,17 +105,19 @@
                 data: { confirm: 'Tem certeza que deseja cancelar este pedido? Esta ação não pode ser desfeita.' } %>
           </div>
         <% else %>
-          <% if @current_user.is_admin %>
           <div class="flex justify-start gap-4">
-            <%= link_to 'Voltar Pedidos', orders_path, 
-                class: 'px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50' %>
-            <%= link_to 'Voltar Mesas', tables_path, 
-                class: 'px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50' %>
-                  </div
-          <% else %>        
-            <%= link_to 'Voltar Mesas', tables_path, 
-                class: 'px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50' %>  
-          <% end %>
+            <% if @current_user.is_admin %>
+              <%= link_to 'Voltar Pedidos', orders_path, 
+                  class: 'px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50' %>
+            <% end %>
+            <% if @order.table.present? %>
+              <%= link_to 'Voltar Mesas', tables_path, 
+                  class: 'px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50' %>  
+            <% else %> 
+              <%= link_to 'Voltar Balcão', delivery_path, 
+                  class: 'px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50' %>
+            <% end %>
+          
         <% end %>
       </div>
     </div>
