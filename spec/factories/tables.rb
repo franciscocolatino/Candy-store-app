@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :table do
-    number { 1 }
+    sequence(:number) { |n| n }
   end
 end
