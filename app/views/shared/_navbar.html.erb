@@ -9,8 +9,8 @@
       <div class="flex items-center space-x-6">
       
       <div class="hidden md:flex space-x-8 text-sm font-medium items-center">
-          
         <%= link_to 'Mesas', tables_path, class: 'text-base text-[#9a3412] hover:text-[#c2410c] hover:scale-105 transition' %>  
+        <%= link_to 'Balcão', delivery_path, class: 'text-base text-[#9a3412] hover:text-[#c2410c] hover:scale-105 transition' %>  
         <%= link_to 'Produtos', products_path, class: 'text-base text-[#9a3412] hover:text-[#c2410c] hover:scale-105 transition' %>
         <% if @current_user.is_admin %>
             <%= link_to 'Pedidos', orders_path, class: 'text-base text-[#9a3412] hover:text-[#c2410c] hover:scale-105 transition' %>
@@ -49,9 +49,11 @@
             </svg>
           </button>
           <div data-dropdown-target="menu" class="hidden absolute right-4 top-14 bg-white rounded-md shadow-lg py-2 w-56 z-50">
+            <%= link_to 'Mesas', tables_path, class: 'block px-4 py-2 text-base text-[#9a3412] hover:text-[#c2410c] transition hover:bg-gray-100' %>  
+            <%= link_to 'Balcão', delivery_path, class: 'block px-4 py-2 text-base text-[#9a3412] hover:text-[#c2410c] transition hover:bg-gray-100' %>  
+            <%= link_to 'Produtos', products_path, class: 'block px-4 py-2 text-base text-[#9a3412] hover:text-[#c2410c] transition hover:bg-gray-100' %>
             <% if @current_user.is_admin %>
               <%= link_to 'Pedidos', orders_path, class: 'block px-4 py-2 text-base text-[#9a3412] hover:text-[#c2410c] transition hover:bg-gray-100' %>
-              <%= link_to 'Produtos', products_path, class: 'block px-4 py-2 text-base text-[#9a3412] hover:text-[#c2410c] transition hover:bg-gray-100' %>
               <%= link_to 'Membros', users_path, class: 'block px-4 py-2 text-base text-[#9a3412] hover:text-[#c2410c] transition hover:bg-gray-100' %>
               <%= link_to 'Dashboard', dashboard_path, class: 'block px-4 py-2 text-base text-[#9a3412] hover:text-[#c2410c] transition hover:bg-gray-100' %>
             <% end %>

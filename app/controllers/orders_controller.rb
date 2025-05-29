@@ -15,14 +15,14 @@ class OrdersController < ApplicationController
     @tables = Table.all.order(:number)
   end
 
-    def create
-       @order = Order.create(table_id: params[:table_id], user_cpf: @current_user.cpf)
+  def create
+    @order = Order.create(table_id: params[:table_id], user_cpf: @current_user.cpf)
 
-      if @order.persisted?
-        redirect_back(fallback_location: root_path, notice: "Pedido ##{@order.id} criado!")
-      else
-        redirect_back(fallback_location: root_path, alert: "Erro: #{@order.errors.full_messages.join(', ')}")
-      end
+    if @order.persisted?
+      redirect_back(fallback_location: root_path, notice: "Pedido ##{@order.id} criado!")
+    else
+      redirect_back(fallback_location: root_path, alert: "Erro: #{@order.errors.full_messages.join(', ')}")
+    end
   end
 
     def show
@@ -40,9 +40,14 @@ class OrdersController < ApplicationController
     end
 
     def destroy
-      table=@order.table
-      @order.destroy
-      redirect_to table_path(table), notice: "Pedido Cancelado com sucesso!"
+      if @order.table_id.present?
+        table=@order.table
+        @order.destroy
+        redirect_to table_path(table), notice: "Pedido Cancelado com sucesso!"
+      else
+        @order.destroy
+        redirect_to delivery_path, notice: "Pedido Cancelado com sucesso!"
+      end
     end
 
     private
