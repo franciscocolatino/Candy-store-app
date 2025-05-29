@@ -10,18 +10,43 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  #get "/teste", to: "static#index"
+  # get "/teste", to: "static#index"
   root "static#index"
-  
+
   resources :users
+  resources :avaliable_lots, only: [ :index ]
+  resources :tables
+
   resources :products do
     resources :lots
-    get 'inventory', on: :member, to: 'products#inventory', as: :inventory
   end
 
-  get '/login', to: 'sessions#index'
-  post '/login', to: 'sessions#login'
-  get '/logout', to: 'sessions#logout'
-  
-  patch 'users/:id/update_password', to: 'users#update_password', as: :password_update
+  resources :orders do
+    resources :orders_lots, only: [ :new, :create, :destroy ] do
+      member do
+        post :order_lot_delivered
+      end
+    end
+
+    member do
+      post :close_order
+    end
+  end
+
+  get "dashboard", to: "dashboard#show"
+  get "delivery", to: "delivery#index"
+
+  get "forbidden", to: "errors#forbidden"
+  get "not_found", to: "errors#not_found"
+
+  match "/404", to: "errors#not_found", via: :all
+  match "/403", to: "errors#forbidden", via: :all
+  match "/500", to: "errors#internal_server_error", via: :all
+
+
+  get "/login", to: "sessions#index"
+  post "/login", to: "sessions#login"
+  get "/logout", to: "sessions#logout"
+
+  patch "users/:id/update_password", to: "users#update_password", as: :password_update
 end

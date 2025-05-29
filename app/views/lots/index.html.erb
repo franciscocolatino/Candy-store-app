@@ -1,26 +1,60 @@
-<div class="mb-4">
-  <%= link_to products_path, class: "inline-flex items-center px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition" do %>
-    <i class="fas fa-arrow-left mr-2"></i>
-    Voltar
-  <% end %>
-</div>
+<%= render 'shared/alert' %>
 
-<h1 class="text-2xl font-bold mb-4 text-gray-800">Lotes do Produto</h1>
-
-<% if @lots.any? %>
-  <ul class="space-y-3">
-    <% @lots.each do |lot| %>
-      <li>
-        <%= link_to edit_product_lot_path(@product, lot), class: "block bg-white shadow-md rounded-lg p-4 hover:bg-gray-50 transition duration-200" do %>
-          <p><strong>Quantidade:</strong> <%= lot.quantity %></p>
-          <p><strong>Fabricação:</strong> <%= l(lot.manufacturing_date, format: :short) if lot.manufacturing_date %></p>
-          <p><strong>Validade:</strong> <%= l(lot.expiration_date, format: :short) if lot.expiration_date %></p>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
-<% else %>
-  <div class="p-4 bg-yellow-100 text-yellow-800 rounded-md">
-    <p>Nenhum lote cadastrado para este produto.</p>
+<div class="max-w-6xl mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-4xl font-bold text-gray-900">📦 Lotes — <%= @product.name %></h2>
+    <div class="space-x-2">
+      <%= link_to 'Novo Lote', new_product_lot_path(@product), 
+        class: "inline-flex items-center px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-[#c2410c] hover:bg-[#9a3412] transition" %>
+      <%= link_to 'Voltar', product_path(@product), 
+        class: "inline-flex items-center px-5 py-2.5 rounded-xl text-sm font-semibold text-gray-700 bg-gray-400 hover:bg-gray-700 hover:text-white transition" %>
+    </div>
   </div>
-<% end %>
+
+  <div class="bg-white shadow-lg rounded-xl overflow-hidden">
+    <% if @lots.any? %>
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            <tr>
+              <th class="px-6 py-4">Quantidade</th>
+              <th class="px-6 py-4">Fabricação</th>
+              <th class="px-6 py-4">Validade</th>
+              <th class="px-6 py-4">Criado em</th>
+              <th class="px-6 py-4">Ações</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <% @lots.each do |lot| %>
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= lot.quantity %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= l(lot.manufacturing_date) if lot.manufacturing_date %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= l(lot.expiration_date) if lot.expiration_date %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= l(lot.created_at, format: :short) if lot.created_at %></td>
+                <td class="px-6 py-4 space-x-2">
+                <%= link_to "Editar", edit_product_lot_path(@product, lot), 
+                    class: "px-4 py-2 rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 text-xs font-medium transition" %>
+
+                <%= link_to "Excluir", product_lot_path(@product, lot), 
+                    method: :delete, data: { confirm: "Tem certeza que deseja excluir?" },
+                    class: "px-4 py-2 rounded-lg text-white bg-red-600 hover:bg-red-700 text-xs font-medium transition" %>
+                </td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+      </div>
+    </div>
+    <div class="px-6 py-3 text-right" >
+        <p class="text-right font-semibold text-gray-700"> Total em Estoque:
+          <span class="px-6 py-3"><%= @lots.sum(:quantity) %> unidades</span>
+        </p>
+      </div>
+    <% else %>
+      <div class="p-6 text-gray-700 bg-gray-100 border-l-4 border-gray-400 rounded-lg">
+        <p class="mb-2 font-medium">Nenhum lote cadastrado para este produto.</p>
+        <%= link_to 'Adicionar Primeiro Lote', new_product_lot_path(@product), class: 'inline-block mt-3 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 transition' %>
+      </div>
+    <% end %>
+          
+</div>

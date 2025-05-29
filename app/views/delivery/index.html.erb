@@ -1,0 +1,61 @@
+<%= render 'shared/alert' %>
+
+<div class="max-w-5xl mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="text-4xl font-bold text-gray-900">Pedidos Balcão</h1>
+
+      <%= button_to "Novo Pedido",
+        orders_path(table_id: nil),
+        method: :post,
+        class: 'inline-flex items-center px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-[#c2410c] hover:bg-[#9a3412] transition' %> 
+    </div>
+
+  <div class="bg-white shadow overflow-hidden sm:rounded-md">
+    <ul class="divide-y divide-gray-200">
+      <% if @deliveries.any? %>
+        <% @deliveries.each do |order| %>
+          <li class="hover:bg-gray-50">
+            <% if order.is_finished==false %>
+            <%= link_to order_path(order), class: 'block' do %>
+              <div class="px-4 py-4 sm:px-6">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center">
+                    <p class="text-sm font-medium text-indigo-600 truncate">
+                      Pedido #<%= order.id %> - Balcão
+                    </p>
+                    <span class="ml-2 px-2.5 py-0.5 rounded-full text-xs font-medium <%= order.is_finished ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' %>">
+                      <%= order.is_finished ? 'Finalizado' : 'Em Andamento' %>
+                    </span>
+                  </div>
+                  <div class="ml-2 flex-shrink-0 flex">
+                    <p class="text-sm text-gray-900">
+                      <%= l(order.created_at, format: :long) %>
+                    </p>
+                  </div>
+                </div>
+                <div class="mt-2 sm:flex sm:justify-between">
+                  <div class="sm:flex">
+                    <p class="flex items-center text-sm text-gray-500">
+                      <% total_items = order.order_lots.sum(:quantity) %>
+                      <%= total_items %> <%= 'item'.pluralize(total_items) %>
+                    </p>
+                  </div>
+                  <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                    <p>
+                      Total: R$ <%= number_to_currency(order.order_lots.sum { |ol| ol.quantity * ol.lot.product.price }, unit: '', separator: ',', delimiter: '.') %>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <% end %>
+            <% end %>
+          </li>
+        <% end %>
+      <% else %>
+        <li class="px-4 py-6 text-center text-gray-500">
+          Nenhum pedido encontrado.
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

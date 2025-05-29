@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Lots", type: :request do
   let!(:product) { FactoryBot.create(:product, name: "Product 1") }
-  let!(:user) { FactoryBot.create(:user, cpf: "12345678900", password: "123456") }
+  let!(:user) { FactoryBot.create(:user, cpf: "12345678900", password: "123456", is_admin: true) }
 
   before do
     cookies[:auth_token] = JsonWebToken.encode(cpf: user.cpf)

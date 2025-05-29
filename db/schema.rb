@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_16_170844) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_20_142221) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -25,12 +25,42 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_16_170844) do
     t.index ["product_id"], name: "index_lots_on_product_id"
   end
 
+  create_table "order_lots", primary_key: ["order_id", "lot_id"], force: :cascade do |t|
+    t.integer "quantity", default: 1, null: false
+    t.boolean "is_delivered", default: false
+    t.float "subtotal", default: 0.0, null: false
+    t.bigint "order_id", null: false
+    t.bigint "lot_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lot_id"], name: "index_order_lots_on_lot_id"
+    t.index ["order_id"], name: "index_order_lots_on_order_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.float "total_price", default: 0.0
+    t.boolean "is_finished", default: false
+    t.datetime "date", default: -> { "CURRENT_TIMESTAMP" }
+    t.bigint "table_id"
+    t.string "user_cpf", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["table_id"], name: "index_orders_on_table_id"
+    t.index ["user_cpf"], name: "index_orders_on_user_cpf"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.string "category"
     t.decimal "price", precision: 10, scale: 2
     t.date "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tables", force: :cascade do |t|
+    t.integer "number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -44,4 +74,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_16_170844) do
   end
 
   add_foreign_key "lots", "products"
+  add_foreign_key "order_lots", "lots"
+  add_foreign_key "order_lots", "orders"
+  add_foreign_key "orders", "tables"
+  add_foreign_key "orders", "users", column: "user_cpf", primary_key: "cpf"
 end

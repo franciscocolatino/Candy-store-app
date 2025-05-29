@@ -6,7 +6,7 @@ class CreateLots < ActiveRecord::Migration[8.0]
       t.date :expiration_date
       t.date :manufacturing_date
       t.date :deleted_at
-      
+
       t.timestamps
     end
   end

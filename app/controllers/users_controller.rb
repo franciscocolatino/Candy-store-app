@@ -5,14 +5,14 @@ class UsersController < ApplicationController
   # GET /users or /users.json
   def index
     @users = User.all
-  
+
     respond_to do |format|
       format.html # renderiza views/users/index.html.erb
       format.json { render json: @users }
     end
   end
-  
-  
+
+
 
   # GET /users/1 or /users/1.json
   def show
@@ -47,8 +47,13 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1 or /users/1.json
   def update
     respond_to do |format|
+      notice = if @user == @current_user && @user.cpf != user_update_params[:cpf]
+                "Seu usuário foi atualizado com sucesso. Faça login novamente com o novo cpf."
+      else
+                "Usuário atualizado com sucesso."
+      end
       if @user.update(user_update_params)
-        format.html { redirect_to user_url(@user), notice: "Usuário atualizado com sucesso." }
+        format.html { redirect_to edit_user_path(@user), notice: notice }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -71,15 +76,15 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     if params[:password] != params[:password_confirmation]
-      flash.now[:alert] = 'As senhas não coincidem.'
+      flash.now[:alert] = "As senhas não coincidem."
       render :edit, status: :unprocessable_entity
       return
     end
-    
+
     if @user.update(password: params[:password])
-      redirect_to edit_user_path(@user), notice: 'Senha atualizada com sucesso.'
+      redirect_to edit_user_path(@user), notice: "Senha atualizada com sucesso."
     else
-      flash.now[:alert] = 'Erro ao atualizar a senha.'
+      flash.now[:alert] = "Erro ao atualizar a senha."
       render :edit, status: :unprocessable_entity
     end
   end
