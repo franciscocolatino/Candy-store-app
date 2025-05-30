@@ -17,6 +17,10 @@ class DashboardController < ApplicationController
     #   payload: report
     # })
 
+    p '------'
+    p report.as_json
+    p '------'
+
     render json: report
   end
 

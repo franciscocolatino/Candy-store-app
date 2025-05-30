@@ -168,15 +168,16 @@ export default class extends Controller {
       this.tableContainerTarget.classList.add("hidden")
       return
     }
-
+    console.log('CHEGOU AQUI')
+    console.log(orders)
     orders.forEach(order => {
       const tr = document.createElement("tr")
       tr.classList.add("hover:bg-gray-50")
       tr.innerHTML = `
         <td class="px-4 py-2 whitespace-nowrap">${order.id}</td>
         <td class="px-4 py-2 whitespace-nowrap">${order.date}</td>
-        <td class="px-4 py-2 whitespace-nowrap">${order.is_finished ? 'Finalizado' : 'Pendente'}</td>
-        <td class="px-4 py-2 whitespace-nowrap">R$ ${Number(order.total_price || 0).toFixed(2)}</td>
+        <td class="px-4 py-2 whitespace-nowrap">${order.status}</td>
+        <td class="px-4 py-2 whitespace-nowrap">${order.total}</td>
       `
       this.tableBodyTarget.appendChild(tr)
     })

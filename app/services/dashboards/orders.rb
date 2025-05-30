@@ -24,27 +24,34 @@ class Dashboards::Orders
     end
 
     date_range = 30.days.ago.to_date..Date.current
-    orders_by_date = orders.where(date: date_range)
+    orders_by_date = orders.where("date::date BETWEEN ? AND ?", date_range.begin, date_range.end)
       .group("date")
       .order("date")
       .count
 
-    chart_data = date_range.each_with_object({}) { |date, hash| hash[date] = 0 }
-    chart_data.merge!(orders_by_date)
+    grouped_data = orders_by_date.each_with_object(Hash.new(0)) do |(datetime, count), hash|
+      key = datetime.to_date
+      hash[key] += count
+    end
+    chart_data = date_range.each_with_object({}) { |date, hash| hash[date].nil? ? hash[date] = 0 : hash[date] }
+    chart_data.merge!(grouped_data)
+
+    orders = orders.select('DISTINCT orders.*')
+    base = Order.unscoped.from(orders, :orders)
 
     result = {
       summary: {
-        total_orders: orders.count,
-        total_revenue: orders.sum(:total_price),
-        average_order_value: orders.average(:total_price).to_f.round(2),
-        orders_finished: orders.where(is_finished: true).count,
-        orders_unfinished: orders.where(is_finished: false).count
+        total_orders: base.count,
+        total_revenue: base.sum(:total_price),
+        average_order_value: base.average(:total_price).to_f.round(2),
+        orders_finished: base.where(is_finished: true).count,
+        orders_unfinished: base.where(is_finished: false).count
       },
       chart_data: {
         labels: chart_data.keys.map { |date| date.strftime("%d/%m") },
         values: chart_data.values
       },
-      orders: orders.limit(50).map do |order|
+      orders: base.limit(50).map do |order|
         {
           id: order.id,
           date: order.date.strftime("%d/%m/%Y"),
