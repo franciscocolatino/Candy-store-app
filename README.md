@@ -1,18 +1,175 @@
-# README
+<p align="center">
+  <img src="https://i0.wp.com/associacaokeynesianabrasileira.org/wp-content/uploads/2024/06/LOGO-UFAL.png?ssl=1" width="200">
+</p>
 
-## Subindo o container Docker
+# Candy Store App 🍰
 
-Para iniciar o ambiente da aplicação usando Docker Compose, execute:
+## Descrição
+Projeto feito por **Anderson Passos, Jônatas Duarte , Francisco Colatino, Rayane Quézia, Thallys Alcantara** para a disciplina de **Engenharia de Softare** pelo **4º período da Universidade Federal de Alagoas**.
 
-```sh
-docker-compose up
-```
+
+
+## Visão Geral
+
+O **Candy Store App** é um sistema web de gestão para confeitarias, focado em controle de pedidos, gestão de estoque via lotes, gerenciamento de produtos e atendimento a clientes em mesas ou no balcão. Foi desenvolvido utilizando Ruby on Rails com renderização de views no servidor e autenticação via JWT.
+
+---
+
+## Finalidade do Projeto
+
+Este projeto foi desenvolvido como trabalho da disciplina de **Engenharia de Software** do curso de **Ciência da Computação da Universidade Federal de Alagoas**. Ele tem como objetivo aplicar os conceitos aprendidos em um sistema completo com boas práticas de desenvolvimento, autenticação segura, testes automatizados e arquitetura escalável.
+
+---
+
+## Diagrama UML (Entidade-Relacionamento)
+
+<details>
+  <summary>Clique para visualizar o diagrama UML</summary>
+
+  [Link do UML](https://app.diagrams.net/#G18D7TarCe9l8kiOS52zOJvWSJjB3E0ViA#%7B%22pageId%22%3A%22DWSuUyHJzI-zKGJJYpxs%22%7D)
+</details>
+
+---
+
+## Funcionalidades
+
+- **Usuários (Admin e Atendentes)**:
+  - Cadastro, login, edição, exclusão e alteração de senha.
+  - Controle de permissões com base no papel (RBAC).
+
+- **Gestão de Produtos**:
+  - Cadastro, edição, exclusão e listagem de produtos.
+  - Associação com lotes.
+
+- **Lotes de Produção**:
+  - Registro de data de fabricação, validade e quantidade.
+  - Rastreabilidade dos produtos vendidos.
+
+- **Pedidos**:
+  - Criação de pedidos vinculados a mesas ou balcão.
+  - Controle de status (pendente, entregue, fechado).
+  - Adição e remoção de itens por lote.
+
+- **Mesas**:
+  - Cadastro e gestão de mesas.
+  - Vinculação e liberação de pedidos.
+
+- **Dashboard**:
+  - Indicadores de estoque, lotes, pedidos ativos e relatórios administrativos.
+
+- **Autenticação com JWT**
+  - Controle seguro de acesso e proteção de rotas sensíveis.
+
+---
+
+## Tecnologias Utilizadas
+
+- **Backend**: Ruby on Rails (MVC)
+- **Frontend**: Embedded Ruby (ERB), TailwindCSS
+- **Banco de Dados**: PostgreSQL
+- **Autenticação**: JSON Web Token (JWT)
+- **Testes**: RSpec, FactoryBot, Faker, SimpleCov, Shoulda Matchers
+- **Containers**: Docker, Docker Compose
+- **Gerenciamento**: GitHub, Trello
+
+---
+
+## Endpoints
+
+### Sessões
+- `POST /login` – Login do usuário.
+- `GET /logout` – Logout do usuário.
+
+### Usuários
+- CRUD completo: `/users`
+- Alterar senha: `PATCH /users/:id/update_password`
+
+### Produtos
+- CRUD completo: `/products`
+
+### Lotes
+- CRUD aninhado: `/products/:product_id/lots`
+
+### Mesas
+- CRUD completo: `/tables`
+
+### Pedidos
+- `GET /orders`
+- `POST /orders`
+- `POST /orders/:id/close_order`
+
+### Balcão
+- `GET /delivery` – Visualizar pedidos sem mesa.
+
+### Dashboard
+- `GET /dashboard`
+
+---
+
+## Fluxo Central da Aplicação
+
+1. Login com autenticação JWT.
+2. Cadastro de produtos e lotes.
+3. Criação de mesas.
+4. Atendimento ao cliente (via mesa ou balcão).
+5. Adição de produtos ao pedido por lote.
+6. Atualização do status dos produtos.
+7. Fechamento do pedido e liberação da mesa.
+8. Acompanhamento pelo dashboard.
+
+---
+
+## Instalação e Configuração
+
+### Pré-requisitos
+
+- Ruby 3.3.5
+- Rails 7
+- PostgreSQL
+- Docker (opcional)
+
+### Passos
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/franciscocolatino/Candy-store-app.git
+   cd Candy-store-app
+    ```
+2. Subindo o container Docker
+
+  Para iniciar o ambiente da aplicação usando Docker Compose, execute:
+  
+  ```sh
+  docker-compose up
+  ```
 
 Para rodar em segundo plano (modo detached):
 
-```sh
-docker-compose up -d
-```
+  ```sh
+  docker-compose up -d
+  ```
+
+3. Acessando o console do Rails (rails c)
+
+  Para acessar o console do Rails dentro do container:
+  
+  ```sh
+  docker-compose exec app rails c
+  ```
+
+4. Criando e migrando o banco de dados
+
+  Para criar, migrar e popular o banco de dados com dados iniciais:
+  
+  ```sh
+  docker-compose exec app rails db:prepare
+  ```
+
+  Para rodar as migrações:
+  
+  ```sh
+  docker-compose exec app rails db:migrate
+  ```
 
 ## Parando/derrubando os containers
 
@@ -20,28 +177,6 @@ Para parar os containers:
 
 ```sh
 docker-compose down
-```
-
-## Acessando o console do Rails (rails c)
-
-Para acessar o console do Rails dentro do container:
-
-```sh
-docker-compose exec app rails c
-```
-
-## Criando e migrando o banco de dados
-
-Para criar, migrar e popular o banco de dados com dados iniciais:
-
-```sh
-docker-compose exec app rails db:prepare
-```
-
-Para rodar as migrações:
-
-```sh
-docker-compose exec app rails db:migrate
 ```
 
 ## Outros comandos úteis
