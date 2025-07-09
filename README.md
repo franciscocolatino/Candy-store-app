@@ -4,6 +4,27 @@
 
 # Candy Store App 🍰
 
+
+<p align="center">
+  <img src="./images/home.png" width="500"/>
+</p>
+
+<details>
+  <summary>Clique para visualizar mais imagens</summary>
+  <div style="display: flex; justify-content: center; gap: 20px;">
+    <img src="./images/mesas.png" width="350" />
+    <img src="./images/pedidos.png" width="300" />
+  </div>
+  
+  <br>
+  
+  <div style="display: flex; justify-content: center; gap: 20px;">
+    <img src="./images/pedido.png" width="400" />
+    <img src="./images/produtos.png" width="400" />
+    <img src="./images/dash.png" width="200" />
+  </div>
+</details>
+
 ## Descrição
 Projeto feito por **Anderson Passos, Jônatas Duarte , Francisco Colatino, Rayane Quézia, Thallys Alcantara** para a disciplina de **Engenharia de Softare** pelo **4º período da Universidade Federal de Alagoas**.
 
@@ -26,7 +47,9 @@ Este projeto foi desenvolvido como trabalho da disciplina de **Engenharia de Sof
 <details>
   <summary>Clique para visualizar o diagrama UML</summary>
 
-  [Link do UML](https://app.diagrams.net/#G18D7TarCe9l8kiOS52zOJvWSJjB3E0ViA#%7B%22pageId%22%3A%22DWSuUyHJzI-zKGJJYpxs%22%7D)
+   <p align="center">
+    <img src="./images/diagrama.png" width="500"/>
+  </p>
 </details>
 
 ---
